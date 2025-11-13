@@ -1,10 +1,11 @@
 #pragma once
 #include "Game_Object.h"
+// class for managing the background inherits from the game object class
 class Background : public Game_Object
 {
 public:
-	Background(Texture &tex, float speed);
-	~Background() override;
+	Background(Texture &tex, float speed); // constructor 
+	~Background() override; // deconstructor
 	
 
 
