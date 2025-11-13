@@ -1,6 +1,6 @@
 #include "Background.h"
 
-Background::Background(Texture tex, float speed)
+Background::Background(Texture &tex, float speed)
 {
 	this->backgroundSprite.setTexture(tex);
 	this->backgroundSpriteRect = IntRect(0, 0, tex.getSize().x, tex.getSize().y);
@@ -33,7 +33,7 @@ void Background::centerAndScaleSprite(RenderWindow& window)
 
 void Background::updateObject(Time deltaTime, RenderWindow& window)
 {
-	this->scrollOffset += this->spriteSpeed * deltaTime.asSeconds(); // update the scroll offset based on the sprite speed and delta time
+	this->scrollOffset += (this->spriteSpeed * deltaTime.asSeconds()); // update the scroll offset based on the sprite speed and delta time
 	float textureWidth = static_cast<float>(this->backgroundSprite.getTexture()->getSize().x); // get the width of the texture
 	if (scrollOffset > textureWidth) // if the scroll offset exceeds the width of the sprite
 	{

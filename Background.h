@@ -3,7 +3,7 @@
 class Background : public Game_Object
 {
 public:
-	Background(Texture tex, float speed);
+	Background(Texture &tex, float speed);
 	~Background() override;
 	
 
