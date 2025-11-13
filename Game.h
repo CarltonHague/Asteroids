@@ -5,6 +5,7 @@
 #include"Ship.h"
 #include "Asteroids.h"
 #include "cassert"
+#include "memory"
 
 // class containing all the game logic and constant vairbles
 
@@ -22,19 +23,24 @@ public:
 private:
 	// private functions
 	void initializeWindow(); // Function to initialize the game window from the variables
-	void initializeTextures();
+	void initializeTextures(); // creates the 
 	void initializeFontAndText();
+	void initializeGameObjects(); // calls initialize on all the game objects in the array
+	void initializeShip(); // creates a ship object using the texture
 	void pollEvents(); // Function to poll window events 
-	void update(); // Function to update the game
+	void updateGame(); // Function to update the game
+	void updateGameObjects(); // function to update all the game objects in the array using overiden virtual function calls
 	void renderGame(); // Function to render the game objects
+	void renderGameObjects();
 	bool loadBackgroundTexture(const std::string& filename, Texture& texture); // function to load textures with repeating 
 	bool loadTexture(const std::string& filename, Texture& texture); // function to load textures without repeating
 
 
 
-
-
-
+	// Number of game Objects
+	static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 32, MAX_BULLETS = 64;
+	static const int TOTAL_GAME_OBJECTS = (MAX_BACKGROUND_LAYERS + MAX_SHIPS + MAX_ASTEROIDS + MAX_BULLETS);
+	std::unique_ptr <Game_Object> allObjectsInGame[TOTAL_GAME_OBJECTS]; // An array of game object pointers for polymorphic function calls 
 	// window vairables
 	RenderWindow window;
 	VideoMode video_mode;
@@ -54,12 +60,11 @@ private:
 		PLAYING,
 		GAMEOVER
 	};
-	gameState currentGameState;
+	gameState currentGameState = STARTSCREEN;
 
 	// textures and fonts 
-	static const int MAX_BACKGROUND_TEXTURES = 8;
-	Texture BackgroudTextures[MAX_BACKGROUND_TEXTURES];
-	std::string backgroundFilePaths[MAX_BACKGROUND_TEXTURES];
+	Texture BackgroudTextures[MAX_BACKGROUND_LAYERS];
+	std::string backgroundFilePaths[MAX_BACKGROUND_LAYERS];
 	Texture shipTexture;
 	Texture bulletTexture;
 	Texture AsteroidTexture;

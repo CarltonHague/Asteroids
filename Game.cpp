@@ -10,15 +10,18 @@ void Game::run()
 	while (this->window.isOpen())
 	{
 		this->pollEvents();
+		this->updateGame();
 		this->renderGame();
 	}
 }
 
 void Game::initialize()
 {
+	currentGameState = STARTSCREEN;
 	this->initializeWindow(); // create the game window
 	this->initializeTextures(); // sets the textures to the file path
 	this->initializeFontAndText(); // sets the font and text vairables
+	this->initializeGameObjects();
 }
 
 void Game::initializeWindow()
@@ -43,7 +46,7 @@ void Game::initializeTextures()
 	// load the ship texture
 	this->loadTexture("Assets/ship.png", this->shipTexture);
 	// load the backgrounds using the file path array
-	for (int backgroundLooper = 0; backgroundLooper < MAX_BACKGROUND_TEXTURES; backgroundLooper++)
+	for (int backgroundLooper = 0; backgroundLooper < MAX_BACKGROUND_LAYERS; backgroundLooper++)
 	{
 		this->loadBackgroundTexture(backgroundFilePaths[backgroundLooper], this->BackgroudTextures[backgroundLooper]);
 	}
@@ -62,6 +65,27 @@ void Game::initializeFontAndText()
 	}
 }
 
+void Game::initializeGameObjects()
+{
+	for (auto& currentobject : this->allObjectsInGame)
+	{
+		if (currentobject)
+		{
+			currentobject->initializeObject(this->window);
+		}
+
+	}
+
+
+}
+
+void Game::initializeShip()
+{
+	// create a ship using the ship texture and attach it to the game object pointer
+	this->allObjectsInGame[0] = std::make_unique<Ship>(this->shipTexture); 
+
+}
+
 void Game::pollEvents()
 {
 	// checks to see if the window was closed or escape pressed
@@ -75,8 +99,22 @@ void Game::pollEvents()
 
 }
 
-void Game::update()
+void Game::updateGame()
 {
+	this->deltaTime = this->gameClock.restart();
+	this->updateGameObjects();
+}
+
+void Game::updateGameObjects()
+{
+	for (auto& currentobject : this->allObjectsInGame)
+	{
+		if (currentobject)
+		{
+			currentobject->updateObject(this->deltaTime, this->window);
+		}
+
+	}
 }
 
 void Game::renderGame()
@@ -84,14 +122,29 @@ void Game::renderGame()
 	// clear the window
 	this->window.clear();
 	// draw objects here
-
-
+    this->renderGameObjects();
 
 
 
 	// display the window
 	this->window.display();
 
+
+}
+
+void Game::renderGameObjects()
+{
+	for (auto& currentobject : this->allObjectsInGame)
+	{
+		if (currentobject)
+		{
+			if (currentobject->getIsActive())
+			{
+				currentobject->renderObject(this->window);
+			}
+		}
+
+	}
 
 }
 
