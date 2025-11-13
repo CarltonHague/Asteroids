@@ -6,6 +6,11 @@ Ship::Ship(Texture &tex)
 	object_type = SHIP;
 }
 
+Ship::~Ship()
+{
+	
+}
+
 void Ship::initializeObject(RenderWindow& window)
 {
 	this->setToActive();

@@ -4,7 +4,7 @@ class Ship : public Game_Object
 {
 public:
      Ship(Texture& tex); //  constructor 
-	
+	 ~Ship() override; // deconstructor 
 
 
 
@@ -37,11 +37,11 @@ private:
 		EAST,
 		STOPPED
 	};
-	Direction shipDirection;
+	Direction shipDirection = STOPPED; // default is stopped
 	
 	const float SHIP_SPEED = 250.f;
 	const float SHIP_SCALE = 20.f ;
-	int shipHealth;
+	int shipHealth = MAX_HP; // set to Max hp on start
 	const int MAX_HP = 100;
 	const float SHIP_ROTATION = 90 ;
 

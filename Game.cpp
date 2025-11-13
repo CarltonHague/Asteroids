@@ -67,6 +67,7 @@ void Game::initializeFontAndText()
 
 void Game::initializeGameObjects()
 {
+	this->initializeShip();
 	for (auto& currentobject : this->allObjectsInGame)
 	{
 		if (currentobject)
@@ -82,7 +83,8 @@ void Game::initializeGameObjects()
 void Game::initializeShip()
 {
 	// create a ship using the ship texture and attach it to the game object pointer
-	this->allObjectsInGame[0] = std::make_unique<Ship>(this->shipTexture); 
+	for(int numberOfShipsToCreate = 0; numberOfShipsToCreate < this->MAX_SHIPS; numberOfShipsToCreate++)
+	this->allObjectsInGame[numberOfShipsToCreate] = std::make_unique<Ship>(this->shipTexture); 
 
 }
 
