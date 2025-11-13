@@ -23,13 +23,13 @@ public:
 private:
 	// private functions
 	void initializeWindow(); // Function to initialize the game window from the variables
-	void initializeTextures(); // creates the 
-	void initializeFontAndText();
+	void initializeTextures(); // function to load the textures from the file paths 
+	void initializeFontAndText(); // function to load the font and set any game text
 	void initializeGameObjects(); // calls initialize on all the game objects in the array
 	void initializeShip(); // creates a ship object using the texture
 	void pollEvents(); // Function to poll window events 
 	void updateGame(); // Function to update the game
-	void updateGameObjects(); // function to update all the game objects in the array using overiden virtual function calls
+	void updateGameObjects(); // function to update all the game objects in the array using overriden virtual function calls
 	void renderGame(); // Function to render the game objects
 	void renderGameObjects();
 	bool loadBackgroundTexture(const std::string& filename, Texture& texture); // function to load textures with repeating 

@@ -109,9 +109,9 @@ void Game::updateGame()
 
 void Game::updateGameObjects()
 {
-	for (auto& currentobject : this->allObjectsInGame)
+	for (auto& currentobject : this->allObjectsInGame) 
 	{
-		if (currentobject)
+		if (currentobject) // check to ensure that you are only updating the objects in the loop and not the pointers
 		{
 			currentobject->updateObject(this->deltaTime, this->window);
 		}
@@ -138,7 +138,7 @@ void Game::renderGameObjects()
 {
 	for (auto& currentobject : this->allObjectsInGame)
 	{
-		if (currentobject)
+		if (currentobject) // check to ensure that you are only rendering the objects in the loop and not the pointers
 		{
 			if (currentobject->getIsActive())
 			{
