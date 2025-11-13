@@ -5,9 +5,9 @@
 
 int main()
 {
-	Game game; // create game object
-	game.initializeGame(); // initialize the vairables for the game
-	game.run(); // game loop
+	Game game; // create the game object
+	game.initialize();
+	game.run();
 
    
 }
