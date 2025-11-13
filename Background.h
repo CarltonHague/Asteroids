@@ -1,5 +1,6 @@
 #pragma once
-class Background
+#include "Game_Object.h"
+class Background : public Game_Object
 {
 };
 

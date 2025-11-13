@@ -1,5 +1,6 @@
 #pragma once
-class Ship
+#include "Game_Object.h"
+class Ship : public Game_Object
 {
 };
 
