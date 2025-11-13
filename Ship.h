@@ -18,7 +18,9 @@ private:
 	 void updateObject(Time deltatime, RenderWindow& window) override; // overide update function
 	 void shipWindowBoundsCollision(RenderWindow& window); // function that keeps the ship within the bounds of the current window
 	Game_Object::type getType() override; // function to return that the object is a ship
-	FloatRect getBounds() override;
+	FloatRect getBounds() override; // get the bounds of the ship 
+	IntRect getTextureRect() override; // get the texture rect of the ship
+	void setTextureRect(IntRect rect) override; // set the texture rect of the ship sprite
 
 	// vairables for the ship
 	Sprite shipSprite;

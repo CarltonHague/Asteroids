@@ -151,4 +151,15 @@ FloatRect Ship::getBounds()
 	return this->shipSprite.getGlobalBounds();
 }
 
+IntRect Ship::getTextureRect()
+{
+	return this->shipSprite.getTextureRect();
+}
+
+void Ship::setTextureRect(IntRect rect)
+{
+	this->shipSprite.setTextureRect(rect);
+
+}
+
 

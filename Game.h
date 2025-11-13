@@ -27,12 +27,13 @@ private:
 	void initializeFontAndText(); // function to load the font and set any game text
 	void initializeGameObjects(); // calls initialize on all the game objects in the array
 	void initializeShip(); // creates a ship object using the texture
+	void initializeBackgrounds();
 	void pollEvents(); // Function to poll window events 
 	void updateGame(); // Function to update the game
 	void updateGameObjects(); // function to update all the game objects in the array using overriden virtual function calls
 	void renderGame(); // Function to render the game objects
 	void renderGameObjects();
-	bool loadBackgroundTexture(const std::string& filename, Texture& texture); // function to load textures with repeating 
+	bool loadBackgroundTexture(std::string& filename, Texture& texture); // function to load textures with repeating 
 	bool loadTexture(const std::string& filename, Texture& texture); // function to load textures without repeating
 
 
@@ -41,6 +42,12 @@ private:
 	static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 32, MAX_BULLETS = 64;
 	static const int TOTAL_GAME_OBJECTS = (MAX_BACKGROUND_LAYERS + MAX_SHIPS + MAX_ASTEROIDS + MAX_BULLETS);
 	std::unique_ptr <Game_Object> allObjectsInGame[TOTAL_GAME_OBJECTS]; // An array of game object pointers for polymorphic function calls 
+
+	// an array of background speeds for moving the background sprites 0 is the furthest and 7 is the closest sprite
+	const float backgroundSpeedArray[MAX_BACKGROUND_LAYERS]{ 10.f,35.f,45.f,45.f,60.f,180.f,180.f,240.f };
+
+
+
 	// window vairables
 	RenderWindow window;
 	VideoMode video_mode;

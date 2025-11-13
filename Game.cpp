@@ -21,7 +21,7 @@ void Game::initialize()
 	this->initializeWindow(); // create the game window
 	this->initializeTextures(); // sets the textures to the file path
 	this->initializeFontAndText(); // sets the font and text vairables
-	this->initializeGameObjects();
+	this->initializeGameObjects(); // creates the game objects and attaches them to the pointer
 }
 
 void Game::initializeWindow()
@@ -67,6 +67,8 @@ void Game::initializeFontAndText()
 
 void Game::initializeGameObjects()
 {
+	
+	this->initializeBackgrounds();
 	this->initializeShip();
 	for (auto& currentobject : this->allObjectsInGame)
 	{
@@ -82,9 +84,31 @@ void Game::initializeGameObjects()
 
 void Game::initializeShip()
 {
+	int timesLooped = 0;
 	// create a ship using the ship texture and attach it to the game object pointer
-	for(int numberOfShipsToCreate = 0; numberOfShipsToCreate < this->MAX_SHIPS; numberOfShipsToCreate++)
-	this->allObjectsInGame[numberOfShipsToCreate] = std::make_unique<Ship>(this->shipTexture); 
+	for (int numberOfShipsToCreate = 0; numberOfShipsToCreate < this->MAX_SHIPS; timesLooped++)
+	{
+		if (this->allObjectsInGame[timesLooped] == nullptr)
+		{
+			this->allObjectsInGame[timesLooped] = std::make_unique<Ship>(this->shipTexture);
+			numberOfShipsToCreate++;
+		}
+	}
+
+}
+
+void Game::initializeBackgrounds()
+{
+	int timesLooped= 0;
+	for (int numberOfBackgroundsCreated = 0; numberOfBackgroundsCreated < this->MAX_BACKGROUND_LAYERS; timesLooped++)
+	{
+		if (this->allObjectsInGame[timesLooped] == nullptr)
+		{
+			this->allObjectsInGame[timesLooped] = std::make_unique<Background>(this->BackgroudTextures[numberOfBackgroundsCreated], this->backgroundSpeedArray[numberOfBackgroundsCreated]);
+			numberOfBackgroundsCreated++;
+		}
+		
+	}
 
 }
 
@@ -150,7 +174,7 @@ void Game::renderGameObjects()
 
 }
 
-bool Game::loadBackgroundTexture(const std::string& filename, Texture& texture)
+bool Game::loadBackgroundTexture( std::string& filename, Texture& texture)
 {
 	// similar code used from homework 3 ship game
 	if (texture.loadFromFile(filename))

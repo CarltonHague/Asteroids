@@ -33,6 +33,7 @@ public:
 	virtual void initializeObject(RenderWindow &window) = 0; // function to initialize the object such as scaling and placement on screen
 	virtual ~Game_Object() = default; // deconstructor
 	virtual type getType() = 0; // function that returns the type of the object
-
+	virtual IntRect getTextureRect() = 0; // function to get the texture rect of the object
+	virtual void setTextureRect(IntRect rect) = 0; // function to set the texture rect of the object's sprite
 };
 
