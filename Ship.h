@@ -27,7 +27,7 @@ private:
 	Vector2f getPosition() override; // gets the position of the ship
 
 	// vairables for the ship
-	Sprite shipSprite;
+	Sprite bulletSprite;
 	Vector2f shipPosition;
 	Vector2f shipVelocity;
 	IntRect shipRect;

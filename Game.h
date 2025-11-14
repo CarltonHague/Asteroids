@@ -58,7 +58,7 @@ private:
 	const int WINDOW_WIDTH = 1920, WINDOW_HEIGHT = 1080;
 	
 	// vairables for shooting the ship 
-	const float SHOOT_SPEED = 0.3f; // speed at which the ship can fire in seconds
+	const float SHOOT_SPEED = 0.5f; // speed at which the ship can fire in seconds
 	float bulletTimerTracker = 0.f;
 	const float BULLET_SPEED = 200.f; //speed at which the bullets will travel
 	// game logic vairables  

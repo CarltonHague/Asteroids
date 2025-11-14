@@ -68,10 +68,13 @@ void Game::initializeFontAndText()
 
 void Game::initializeGameObjects()
 {
-	
+	// the order in which these objects are created is important as it is the order in which they will render or update
 	this->initializeBackgrounds();
 	this->initializeBullets();
 	this->initializeShip();
+
+
+
 	for (auto& currentobject : this->allObjectsInGame)
 	{
 		if (currentobject)

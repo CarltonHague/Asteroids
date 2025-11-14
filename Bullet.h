@@ -12,7 +12,7 @@ public:
 
 private:
 	// private functions
-
+	void scaleAndCentre(RenderWindow& window); // to set the scale of the bullets and set the origin to the centre of the bullet
 
 
 
@@ -32,6 +32,7 @@ private:
 
 
 	// vairables 
+	const float BULLET_SCALE = 30.f; // scaler value of the bullet relative to the window size 
 	const float ANIMATION_SPEED = 0.2f; // the speed that the sprite changes between the two frames in seconds 
 	float animationTimer = 0.f;
 	Sprite bulletSprite;
