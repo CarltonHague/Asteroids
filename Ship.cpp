@@ -143,7 +143,7 @@ void Ship::shipWindowBoundsCollision(RenderWindow& window)
 
 Game_Object::type Ship::getType()
 {
-	return SHIP;
+	return this->object_type;
 }
 
 FloatRect Ship::getBounds()
@@ -160,6 +160,16 @@ void Ship::setTextureRect(IntRect rect)
 {
 	this->shipSprite.setTextureRect(rect);
 
+}
+
+void Ship::setPosition(Vector2f pos)
+{
+	this->shipSprite.setPosition(pos);
+}
+
+Vector2f Ship::getPosition()
+{
+	return this->shipSprite.getPosition();
 }
 
 

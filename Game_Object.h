@@ -35,5 +35,7 @@ public:
 	virtual type getType() = 0; // function that returns the type of the object
 	virtual IntRect getTextureRect() = 0; // function to get the texture rect of the object
 	virtual void setTextureRect(IntRect rect) = 0; // function to set the texture rect of the object's sprite
+	virtual Vector2f getPosition() = 0; // function to get the position of the game object on the screen
+	virtual void setPosition(Vector2f) = 0; // function to set the position of the object
 };
 

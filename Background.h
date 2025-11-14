@@ -22,6 +22,8 @@ private:
 	Game_Object::type getType() override; // function that returns the type of the object
 	IntRect getTextureRect() override; // get the texture rect of the background
 	void setTextureRect(IntRect rect) override; // set the texture rect of the background sprite
+	Vector2f getPosition() override; // get the position of the background sprite
+	void setPosition(Vector2f) override; // set the position of the background sprite
 
 	// background vairables
 	Sprite backgroundSprite; // background sprite

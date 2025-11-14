@@ -11,16 +11,20 @@ public:
 
 private:
 	// private functions
-     void initializeObject(RenderWindow& window) override; // function to overide the virtual base class function 
 	 void scaleAndCenterOrigin(RenderWindow& window); // function to scale the ship and set the origin to the center
-	 void renderObject(RenderWindow& window) override; // function to overide the virtual base class function and render the ship to the window
 	 void updateDirection();
-	 void updateObject(Time deltatime, RenderWindow& window) override; // overide update function
 	 void shipWindowBoundsCollision(RenderWindow& window); // function that keeps the ship within the bounds of the current window
+
+	 // override functions 
+	 void initializeObject(RenderWindow& window) override; // function to overide the virtual base class function 
+	 void renderObject(RenderWindow& window) override; // function to overide the virtual base class function and render the ship to the window
+	void updateObject(Time deltatime, RenderWindow& window) override;// overide update function
 	Game_Object::type getType() override; // function to return that the object is a ship
 	FloatRect getBounds() override; // get the bounds of the ship 
 	IntRect getTextureRect() override; // get the texture rect of the ship
 	void setTextureRect(IntRect rect) override; // set the texture rect of the ship sprite
+	void setPosition(Vector2f) override; // set the position of the ship
+	Vector2f getPosition() override; // gets the position of the ship
 
 	// vairables for the ship
 	Sprite shipSprite;

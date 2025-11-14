@@ -76,3 +76,13 @@ void Background::setTextureRect(IntRect rect)
 	this->backgroundSpriteRect = rect;
 	this->backgroundSprite.setTextureRect(this->backgroundSpriteRect);
 }
+
+Vector2f Background::getPosition()
+{
+	return this->backgroundSprite.getPosition();
+}
+
+void Background::setPosition(Vector2f pos)
+{
+	this->backgroundSprite.setPosition(pos);
+}

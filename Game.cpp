@@ -30,6 +30,7 @@ void Game::initializeWindow()
 	this->window_size = Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT);
 	this->video_mode = video_mode = VideoMode(this->window_size.x, this->window_size.y);
 	this->window.create(this->video_mode, this->GAME_TITLE, Style::Titlebar | Style::Close);
+	this->window.setVerticalSyncEnabled(true);
 }
 
 void Game::initializeTextures()
@@ -69,6 +70,7 @@ void Game::initializeGameObjects()
 {
 	
 	this->initializeBackgrounds();
+	this->initializeBullets();
 	this->initializeShip();
 	for (auto& currentobject : this->allObjectsInGame)
 	{
@@ -92,6 +94,11 @@ void Game::initializeShip()
 		{
 			this->allObjectsInGame[timesLooped] = std::make_unique<Ship>(this->shipTexture);
 			numberOfShipsToCreate++;
+			
+		}
+		if (timesLooped == (TOTAL_GAME_OBJECTS - 1))
+		{
+			break; // breaks the loop if you would go over the total size of the array
 		}
 	}
 
@@ -107,10 +114,32 @@ void Game::initializeBackgrounds()
 			this->allObjectsInGame[timesLooped] = std::make_unique<Background>(this->BackgroudTextures[numberOfBackgroundsCreated], this->backgroundSpeedArray[numberOfBackgroundsCreated]);
 			numberOfBackgroundsCreated++;
 		}
-		
+		if (timesLooped == (TOTAL_GAME_OBJECTS - 1))
+		{
+			break; // breaks the loop if you would go over the total size of the array
+		}
 	}
 
 }
+
+void Game::initializeBullets()
+{
+	int timesLooped = 0;
+	for (int numberOfBulletsCreated = 0; numberOfBulletsCreated < this->MAX_BULLETS; timesLooped++)
+	{
+		if (this->allObjectsInGame[timesLooped] == nullptr)
+		{
+			this->allObjectsInGame[timesLooped] = std::make_unique<Bullet>(this->bulletTexture, this->BULLET_SPEED); // creates bullets using the texture and speed const
+			numberOfBulletsCreated++;
+		}
+		if (timesLooped == (TOTAL_GAME_OBJECTS - 1))
+		{
+			break; // breaks the loop if you would go over the total size of the array
+		}
+	}
+
+}
+
 
 void Game::pollEvents()
 {
@@ -128,6 +157,7 @@ void Game::pollEvents()
 void Game::updateGame()
 {
 	this->deltaTime = this->gameClock.restart();
+	this->fireBullet();
 	this->updateGameObjects();
 }
 
@@ -199,3 +229,42 @@ bool Game::loadTexture(const std::string& filename, Texture& texture)
 	assert(false); // if loading fails it triggers an assertion
 	return false;
 }
+
+void Game::fireBullet()
+{
+	this->bulletTimerTracker += this->deltaTime.asSeconds(); // add the frame time to the bullet timer 
+	if (this->bulletTimerTracker >= this->SHOOT_SPEED) // if the ship is ready to shoot 
+	{
+		if (Keyboard::isKeyPressed(Keyboard::Space)) // if the player presses space bar
+		{
+			for (auto& objectInLoop : this->allObjectsInGame)
+			{
+				if (objectInLoop)
+				{
+					if (objectInLoop->getType() == Game_Object::SHIP && objectInLoop->getIsActive())
+					{
+
+						Vector2f shipPos = objectInLoop->getPosition(); // get the position of the ship
+
+						for (auto& bulletInLoop : this->allObjectsInGame) // loop again and look for a non active bullet in the object pool 
+						{
+							if (bulletInLoop)
+							{
+								if (bulletInLoop->getType() == Game_Object::BULLET && !bulletInLoop->getIsActive())
+								{
+									bulletInLoop->setPosition(shipPos); // set the position of the bullet = to the ship and activate it 
+ 									this->bulletTimerTracker = 0; // reset the timer
+									break; // break loop to ensure only 1 bullet is fired 
+								}
+							}
+						}
+					}
+
+				}
+			}
+				
+				
+		}
+	}
+}
+
