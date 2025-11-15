@@ -3,8 +3,7 @@
 Bullet::Bullet()
 {
 	this->object_type = BULLET;
-	this->deactivate(); // set the bullet to not active by default
-
+	this->turnOffBullet();
 }
 
 Bullet::~Bullet()
@@ -27,6 +26,13 @@ void Bullet::fireBullet(Vector2f shipPos)
 {
 	this->bulletSprite.setPosition(shipPos); // set the bullet to the same position as the ship
 	this->setToActive(); // set the bullet to active to be rendered and moved 
+	this->setCollideable(); // set the bullet for collision 
+}
+
+void Bullet::turnOffBullet()
+{
+	this->deactivate();
+	this->notCollideable();
 }
 
 void Bullet::setTexture(Texture& tex)
@@ -63,7 +69,7 @@ void Bullet::updateObject(Time deltaTime, RenderWindow& window)
 			|| this->bulletPosition.y >= window.getSize().y
 			|| this->bulletPosition.y <= 0)
 		{
-			this->deactivate(); // deactivate the bullet
+			this->turnOffBullet();
 		}
 
 	}
@@ -88,5 +94,31 @@ void Bullet::initializeObject(RenderWindow& window)
 
 
 
+}
+
+FloatRect Bullet::getBounds()
+{
+	return this->bulletSprite.getGlobalBounds();
+}
+
+bool Bullet::collisionCheck(FloatRect objectYouAreHitting)
+{
+	FloatRect currentBounds = this->bulletSprite.getGlobalBounds();
+	if (currentBounds.intersects(objectYouAreHitting) &&  currentBounds != objectYouAreHitting) // if the bullet hits the object and it's not it's self
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Bullet::collisionOutcome(bool collisionFlag, type whatHitYou)
+{
+	if (collisionFlag && whatHitYou != SHIP && whatHitYou != BULLET)
+	{
+		this->turnOffBullet();
+	}
 }
 

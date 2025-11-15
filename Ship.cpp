@@ -4,6 +4,7 @@ Ship::Ship()
 {
 	this->shipHealth = this->MAX_HP;
 	object_type = SHIP;
+	this->setCollideable(); // set the ship to collideable for collision detection 
 }
 
 Ship::~Ship()
@@ -125,7 +126,7 @@ FloatRect Ship::getBounds()
 bool Ship::collisionCheck(FloatRect objectYouAreHitting)
 {
 	FloatRect currentBounds = this->shipSprite.getGlobalBounds();
-	if (objectYouAreHitting.intersects(currentBounds) && objectYouAreHitting == currentBounds) // checks if you intersecred with the object and it's not yourself
+	if (objectYouAreHitting.intersects(currentBounds) && objectYouAreHitting != currentBounds) // checks if you intersecred with the object and it's not yourself
 	{
 		return true;
 	}

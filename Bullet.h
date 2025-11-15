@@ -11,6 +11,7 @@ public:
 	~Bullet()override; // deconstructor
 	void setTexture(Texture& tex); // set the texture of the bullet sprite
 	void fireBullet(Vector2f shipPos); // function to fire the bullet
+	void turnOffBullet(); // function to turn off the collision and deactivate the bullet
 
 private:
 	// private functions
@@ -23,7 +24,9 @@ private:
 	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
 	void renderObject(RenderWindow& window) override; // function to draw the object
 	void initializeObject(RenderWindow& window) override; //function to scale to the correct based on the render window
-
+	FloatRect getBounds() override; // overide for getting the bounds of the bullet
+	bool collisionCheck(FloatRect objectYouAreHitting) override; // checks to see if the bullet is hitting something and returns either true or false
+	void collisionOutcome(bool collisionFlag, type) override; // the outcome of the bullet getting hit
 
 
 

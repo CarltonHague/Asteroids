@@ -7,10 +7,11 @@ Asteroids::Asteroids()
 
 void Asteroids::resetAsteroid()
 {
-	this->deactivate(); // deactivate the object
+	this->turnOffAsteroid(); // deactivate the object
 	// reset the texture rect to the default animation 
 	this->asteroidRect = IntRect(0, 0, this->SPRITE_SIZE, this->SPRITE_SIZE);
 	this->asteroidSprite.setTextureRect(this->asteroidRect);
+	this->asteroidHealth = 0;
 }
 
 void Asteroids::setTexture(Texture& tex)
@@ -34,6 +35,12 @@ void Asteroids::animateAsteroid()
 	}
 	this->asteroidSprite.setTextureRect(this->asteroidRect);
 
+}
+
+void Asteroids::turnOffAsteroid()
+{
+	this->deactivate();
+	this->notCollideable();
 }
 
 
@@ -69,9 +76,39 @@ void Asteroids::renderObject(RenderWindow& window)
 
 void Asteroids::initializeObject(RenderWindow& window)
 {
-	this->deactivate(); // set the asteroid to not active by default 
-	this->object_type = ASTEROID; // set the type to asteroid
+	this->turnOffAsteroid(); // set the asteroid to not active by default 
+	
 
+}
+
+FloatRect Asteroids::getBounds()
+{
+	return this->asteroidSprite.getGlobalBounds();
+}
+
+bool Asteroids::collisionCheck(FloatRect objectYouAreHitting)
+{
+	FloatRect currentBounds = this->asteroidSprite.getGlobalBounds();
+	if (currentBounds.intersects(objectYouAreHitting) && currentBounds != objectYouAreHitting) // check if the object intersects the bounds of the current object
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Asteroids::collisionOutcome(bool collisionFlag, type whatHitYou)
+{
+	if (collisionFlag && whatHitYou == BULLET)
+	{
+		this->asteroidHealth -= this->BULLET_DAMAGE;
+	}
+	if (collisionFlag && whatHitYou == SHIP)
+	{
+		resetAsteroid();
+	}
 }
 
 Asteroids::~Asteroids()
