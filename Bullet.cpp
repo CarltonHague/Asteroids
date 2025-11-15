@@ -2,9 +2,6 @@
 
 Bullet::Bullet()
 {
-	// create the bullet set it inactive by default
-
-	
 	this->object_type = BULLET;
 	this->deactivate(); // set the bullet to not active by default
 

@@ -31,7 +31,6 @@ void Background::initializeBackground(Texture& tex, float speed)
 	this->backgroundSprite.setTexture(tex);
 	this->backgroundSpriteRect = IntRect(0, 0, tex.getSize().x, tex.getSize().y);
 	this->backgroundSprite.setTextureRect(this->backgroundSpriteRect);
-	object_type = BACKGROUND;
 	this->setSpriteSpeed(speed);
 	this->setToActive();
 }

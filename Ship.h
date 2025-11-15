@@ -1,6 +1,7 @@
 #pragma once
 #include "Game_Object.h"
-class Ship : public Game_Object
+#include "Collidable_Object.h"
+class Ship : public Game_Object , public Collidable_Object
 {
 public:
      Ship(); //  constructor 
@@ -13,13 +14,15 @@ private:
 	// private functions
 	 void scaleAndCenterOrigin(RenderWindow& window); // function to scale the ship and set the origin to the center
 	 void shipWindowBoundsCollision(RenderWindow& window); // function that keeps the ship within the bounds of the current window
-	 
+	 void shipTakeDamge(int damageAmount); // function for the ship to take damage
 
 	 // override functions 
 	 void initializeObject(RenderWindow& window) override; // function to overide the virtual base class function 
 	 void renderObject(RenderWindow& window) override; // function to overide the virtual base class function and render the ship to the window
 	void updateObject(Time deltatime, RenderWindow& window) override;// overide update function
-	
+	FloatRect getBounds() override; // overide for getting the bounds of the ship
+	bool collisionCheck(FloatRect objectYouAreHitting) override; // checks to see if the ship is hitting something and returns either true or false
+	void collisionOutcome(bool collisionFlag,type) override; // the outcome of the ship getting hit
 
 	// vairables for the ship
 	Sprite shipSprite;
@@ -39,7 +42,7 @@ private:
 		STOPPED
 	};
 	Direction shipDirection = STOPPED; // default is stopped
-	
+	const int SMALL_ASTEROID_DAMAGE = 5, LARGE_ASTEROID_DAMAGE = 15, NORMAL_ASTEROID_DAMAGE = 10;
 	const float SHIP_SPEED = 250.f;
 	const float SHIP_SCALE = 20.f ;
 	int shipHealth = 0;

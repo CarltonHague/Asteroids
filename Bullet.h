@@ -1,9 +1,10 @@
 #pragma once
 #include "Game_Object.h"
+#include "Collidable_Object.h"
 // class for managing the bullets logic
 // each bullet texture is 32 by 32 and the total sprite sheet is 32 x 62
 
-class Bullet : public Game_Object
+class Bullet : public Game_Object, public Collidable_Object
 {
 public:
 	Bullet(); // constructor

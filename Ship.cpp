@@ -117,6 +117,43 @@ void Ship::updateObject(Time deltaTime, RenderWindow& window)
 
 }
 
+FloatRect Ship::getBounds()
+{
+	return this->shipSprite.getGlobalBounds();
+}
+
+bool Ship::collisionCheck(FloatRect objectYouAreHitting)
+{
+	FloatRect currentBounds = this->shipSprite.getGlobalBounds();
+	if (objectYouAreHitting.intersects(currentBounds) && objectYouAreHitting == currentBounds) // checks if you intersecred with the object and it's not yourself
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
+}
+
+void Ship::collisionOutcome(bool collisionFlag, type whatHitYou)
+{
+	// if the ship is hit by an asteroid of diffrent kinds take damge 
+	if (collisionFlag && whatHitYou == LARGE_ASTEROID)
+	{
+		this->shipTakeDamge(LARGE_ASTEROID_DAMAGE);
+		
+	}
+	if (collisionFlag && whatHitYou == SMALL_ASTEROID)
+	{
+		this->shipTakeDamge(SMALL_ASTEROID_DAMAGE);
+	}
+	if (collisionFlag && whatHitYou == NORMAL_ASTEROID)
+	{
+		this->shipTakeDamge(NORMAL_ASTEROID_DAMAGE);
+	}
+}
+
 void Ship::shipWindowBoundsCollision(RenderWindow& window)
 {
 	// same function as in homework 3
@@ -137,6 +174,15 @@ void Ship::shipWindowBoundsCollision(RenderWindow& window)
 	if (this->shipPosition.y >= (window.getSize().y - this->shipSprite.getGlobalBounds().height))
 	{
 		this->shipSprite.setPosition(this->shipPosition.x, window.getSize().y - this->shipSprite.getGlobalBounds().height);
+	}
+}
+
+void Ship::shipTakeDamge(int damageAmount)
+{
+	this->shipHealth -= damageAmount;
+	if (this->shipHealth <= 0)
+	{
+		shipHealth = 0;
 	}
 }
 
