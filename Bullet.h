@@ -9,7 +9,7 @@ public:
 	Bullet(); // constructor
 	~Bullet()override; // deconstructor
 	void setTexture(Texture& tex); // set the texture of the bullet sprite
-
+	void fireBullet(Vector2f shipPos); // function to fire the bullet
 
 private:
 	// private functions

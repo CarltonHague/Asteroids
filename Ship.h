@@ -6,13 +6,12 @@ public:
      Ship(); //  constructor 
 	 ~Ship() override; // deconstructor 
 	 void setTexture(Texture& tex); // function to set the texture of the ship
-
-
+	 void updateDirection(bool up, bool down, bool left, bool right); // updates the ships direction based on user input
+	 Vector2f getPosition(); // get the current location of the ship for shooting
 
 private:
 	// private functions
 	 void scaleAndCenterOrigin(RenderWindow& window); // function to scale the ship and set the origin to the center
-	 void updateDirection();
 	 void shipWindowBoundsCollision(RenderWindow& window); // function that keeps the ship within the bounds of the current window
 	 
 
@@ -23,7 +22,7 @@ private:
 	
 
 	// vairables for the ship
-	Sprite bulletSprite;
+	Sprite shipSprite;
 	Vector2f shipPosition;
 	Vector2f shipVelocity;
 	IntRect shipRect;

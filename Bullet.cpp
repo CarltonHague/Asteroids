@@ -26,6 +26,12 @@ void Bullet::scaleAndCentre(RenderWindow& window)
 
 }
 
+void Bullet::fireBullet(Vector2f shipPos)
+{
+	this->bulletSprite.setPosition(shipPos); // set the bullet to the same position as the ship
+	this->setToActive(); // set the bullet to active to be rendered and moved 
+}
+
 void Bullet::setTexture(Texture& tex)
 {
 	this->bulletSprite.setTexture(tex);

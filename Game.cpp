@@ -138,8 +138,11 @@ void Game::pollEvents()
 
 void Game::updateGame()
 {
-	this->deltaTime = this->gameClock.restart();
-	this->updateGameObjects();
+	this->deltaTime = this->gameClock.restart(); // capture delta time
+	this->playerInput.updateInput(this->deltaTime); // checks to see what input the player wants to do 
+	this->playerShip.updateDirection(this->playerInput.getUp(), this->playerInput.GetDown(), this->playerInput.getLeft(), this->playerInput.getRight()); 
+	this->fireBullet(this->playerInput.getFire()); // if the fire flag is set in the input manager fire a bullet 
+	this->updateGameObjects(); // moves and updates all the objects in the game using a polymorphic function call 
 }
 
 void Game::updateGameObjects()
@@ -225,5 +228,22 @@ void Game::addGameObjectToPointerArray(Game_Object& objectPassedIn)
 	}
 
 
+}
+
+void Game::fireBullet(bool readyToFire)
+{
+	if (readyToFire) // if the player wants to fire
+	{
+		for (Bullet& bulletInPool : this->bulletPool) // loop throught the bullet pool 
+		{
+			if (!bulletInPool.getIsActive()) // if a bullet is not active
+			{
+				bulletInPool.fireBullet(this->playerShip.getPosition()); // fire the bullet 
+				this->playerInput.resetReadyToFire(); // reset the fire flag
+				break; // break the loop so only 1 bullet is fired 
+			}
+		}
+
+	}
 }
 

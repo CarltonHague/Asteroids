@@ -5,8 +5,7 @@
 #include"Ship.h"
 #include "Asteroids.h"
 #include "cassert"
-#include "memory"
-
+#include "Input_Manager.h"
 
 // game manager style class contains:  The main update loop 
 //                                     Initialize functions 
@@ -49,7 +48,7 @@ private:
 	bool loadBackgroundTexture(std::string& filename, Texture& texture); // function to load textures with repeating 
 	bool loadTexture(const std::string& filename, Texture& texture); // function to load textures without repeating
 	void addGameObjectToPointerArray(Game_Object& obj); // adds the objet being passed into the function to the array for polymorphic update and rendering calls
-
+	void fireBullet(bool readyToFire); // fire a bullet using the input manager ready to fire bool
 
 	// Number of game Objects
     static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 16, MAX_BULLETS = 32;
@@ -65,7 +64,8 @@ private:
 	//Asteroids asteroidPool[MAX_ASTEROIDS];
 	Ship playerShip;
 
-
+	// input manager object
+	Input_Manager playerInput;
 
 	// window vairables
 	RenderWindow window;

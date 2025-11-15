@@ -21,32 +21,27 @@ void Ship::scaleAndCenterOrigin(RenderWindow& window)
 {
 	// similar code to the 3rd homework with the ship
 
-	IntRect shipBounds = this->bulletSprite.getTextureRect(); // get the texture rect of the ship sprite
+	IntRect shipBounds = this->shipSprite.getTextureRect(); // get the texture rect of the ship sprite
 	float scaleX = static_cast<float>(window.getSize().x / shipBounds.width);
 	float scaleY = (static_cast<float>(window.getSize().y) / static_cast <float> (shipBounds.height));
 	scaleX = scaleX / this->SHIP_SCALE;
 	scaleY = scaleY / this->SHIP_SCALE;
-	this->bulletSprite.setPosition(window.getSize().x / 2, window.getSize().y / 2); // set the ship to the center of the screen
-	this->bulletSprite.setScale(scaleX, scaleY); // scale the ship down to half size
-	this->bulletSprite.setRotation(this->SHIP_ROTATION); // rotate the ship to face to the right
-	this->bulletSprite.setOrigin(static_cast<float>(shipBounds.width) / 2.0f, static_cast<float>(shipBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
+	this->shipSprite.setPosition(window.getSize().x / 2, window.getSize().y / 2); // set the ship to the center of the screen
+	this->shipSprite.setScale(scaleX, scaleY); // scale the ship down to half size
+	this->shipSprite.setRotation(this->SHIP_ROTATION); // rotate the ship to face to the right
+	this->shipSprite.setOrigin(static_cast<float>(shipBounds.width) / 2.0f, static_cast<float>(shipBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
 
 
 }
 
 void Ship::renderObject(RenderWindow& window)
 {
-	window.draw(this->bulletSprite);
+	window.draw(this->shipSprite);
 }
 
-void Ship::updateDirection()
+void Ship::updateDirection(bool up, bool down, bool left, bool right)
 {
-	// poll to see if a key is pressed and change the ship direction accordingly
-	bool up = Keyboard::isKeyPressed(Keyboard::W);
-	bool down = Keyboard::isKeyPressed(Keyboard::S);
-	bool left = Keyboard::isKeyPressed(Keyboard::A);
-	bool right = Keyboard::isKeyPressed(Keyboard::D);
-
+	// update the ship using input from the manager class
 	if (up && right)
 		this->shipDirection = NORTH_EAST;
 	else if (up && left)
@@ -68,9 +63,13 @@ void Ship::updateDirection()
 
 }
 
+Vector2f Ship::getPosition()
+{
+	return this->shipSprite.getPosition();
+}
+
 void Ship::updateObject(Time deltaTime, RenderWindow& window)
 {
-	this->updateDirection(); // update the ship direction based on user input
 	//check the ship direction and update the velocity accordingly
 	switch (this->shipDirection)
 	{
@@ -113,7 +112,7 @@ void Ship::updateObject(Time deltaTime, RenderWindow& window)
 		break;
 	}
 	this->shipWindowBoundsCollision(window);
-	this->bulletSprite.move(this->shipVelocity * deltaTime.asSeconds()); // move the ship based on its velocity and delta time
+	this->shipSprite.move(this->shipVelocity * deltaTime.asSeconds()); // move the ship based on its velocity and delta time
 
 
 }
@@ -122,28 +121,28 @@ void Ship::shipWindowBoundsCollision(RenderWindow& window)
 {
 	// same function as in homework 3
 
-	this->shipPosition = this->bulletSprite.getPosition();
-	if (this->shipPosition.x <= 0 + this->bulletSprite.getGlobalBounds().width)
+	this->shipPosition = this->shipSprite.getPosition();
+	if (this->shipPosition.x <= 0 + this->shipSprite.getGlobalBounds().width)
 	{
-		this->bulletSprite.setPosition(0 + this->bulletSprite.getGlobalBounds().width, this->shipPosition.y);
+		this->shipSprite.setPosition(0 + this->shipSprite.getGlobalBounds().width, this->shipPosition.y);
 	}
-	if (this->shipPosition.x >= (window.getSize().x - this->bulletSprite.getGlobalBounds().width))
+	if (this->shipPosition.x >= (window.getSize().x - this->shipSprite.getGlobalBounds().width))
 	{
-		this->bulletSprite.setPosition(window.getSize().x - this->bulletSprite.getGlobalBounds().width, this->shipPosition.y);
+		this->shipSprite.setPosition(window.getSize().x - this->shipSprite.getGlobalBounds().width, this->shipPosition.y);
 	}
-	if (this->shipPosition.y <= 0 + this->bulletSprite.getGlobalBounds().height)
+	if (this->shipPosition.y <= 0 + this->shipSprite.getGlobalBounds().height)
 	{
-		this->bulletSprite.setPosition(this->shipPosition.x, 0 + this->bulletSprite.getGlobalBounds().height);
+		this->shipSprite.setPosition(this->shipPosition.x, 0 + this->shipSprite.getGlobalBounds().height);
 	}
-	if (this->shipPosition.y >= (window.getSize().y - this->bulletSprite.getGlobalBounds().height))
+	if (this->shipPosition.y >= (window.getSize().y - this->shipSprite.getGlobalBounds().height))
 	{
-		this->bulletSprite.setPosition(this->shipPosition.x, window.getSize().y - this->bulletSprite.getGlobalBounds().height);
+		this->shipSprite.setPosition(this->shipPosition.x, window.getSize().y - this->shipSprite.getGlobalBounds().height);
 	}
 }
 
 void Ship::setTexture(Texture& tex)
 {
-	this->bulletSprite.setTexture(tex);
+	this->shipSprite.setTexture(tex);
 }
 
 
