@@ -37,16 +37,22 @@ private:
 	bool loadBackgroundTexture(std::string& filename, Texture& texture); // function to load textures with repeating 
 	bool loadTexture(const std::string& filename, Texture& texture); // function to load textures without repeating
 	void fireBullet(); // function to allow the player to shoot
-
+	void addGameObjectToPointerArray(Game_Object* obj); // adds the objet being passed into the function to the array for polymorphic update and rendering calls
 
 
 	// Number of game Objects
-	static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 16, MAX_BULLETS = 32;
+    static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 16, MAX_BULLETS = 32;
 	static const int TOTAL_GAME_OBJECTS = (MAX_BACKGROUND_LAYERS + MAX_SHIPS + MAX_ASTEROIDS + MAX_BULLETS);
-	std::unique_ptr <Game_Object> allObjectsInGame[TOTAL_GAME_OBJECTS]; // An array of game object pointers for polymorphic function calls 
+	Game_Object * allObjectsInGame[TOTAL_GAME_OBJECTS]; // An array of game object pointers for polymorphic function calls 
 
 	// an array of background speeds for moving the background sprites 0 is the furthest and 7 is the closest sprite
 	const float backgroundSpeedArray[MAX_BACKGROUND_LAYERS]{ 10.f,35.f,45.f,45.f,60.f,180.f,180.f,240.f };
+
+	// pools of objects for better cache coherence and refrencing
+	Bullet bulletPool[MAX_BULLETS];
+	Background backgroundPool[MAX_BACKGROUND_LAYERS];
+	//Asteroids asteroidPool[MAX_ASTEROIDS];
+	Ship playerShip;
 
 
 
@@ -60,7 +66,7 @@ private:
 	// vairables for shooting the ship 
 	const float SHOOT_SPEED = 0.5f; // speed at which the ship can fire in seconds
 	float bulletTimerTracker = 0.f;
-	const float BULLET_SPEED = 200.f; //speed at which the bullets will travel
+
 	// game logic vairables  
 	Event gamePoller;
 	Clock gameClock;

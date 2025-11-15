@@ -1,8 +1,8 @@
 #include "Ship.h"
 
-Ship::Ship(Texture &tex)
+Ship::Ship()
 {
-	this->bulletSprite.setTexture(tex);
+	this->shipHealth = this->MAX_HP;
 	object_type = SHIP;
 }
 
@@ -141,35 +141,10 @@ void Ship::shipWindowBoundsCollision(RenderWindow& window)
 	}
 }
 
-Game_Object::type Ship::getType()
+void Ship::setTexture(Texture& tex)
 {
-	return this->object_type;
+	this->bulletSprite.setTexture(tex);
 }
 
-FloatRect Ship::getBounds()
-{
-	return this->bulletSprite.getGlobalBounds();
-}
-
-IntRect Ship::getTextureRect()
-{
-	return this->bulletSprite.getTextureRect();
-}
-
-void Ship::setTextureRect(IntRect rect)
-{
-	this->bulletSprite.setTextureRect(rect);
-
-}
-
-void Ship::setPosition(Vector2f pos)
-{
-	this->bulletSprite.setPosition(pos);
-}
-
-Vector2f Ship::getPosition()
-{
-	return this->bulletSprite.getPosition();
-}
 
 

@@ -4,16 +4,16 @@
 class Background : public Game_Object
 {
 public:
-	Background(Texture &tex, float speed); // constructor 
+	Background(); // constructor 
 	~Background() override; // deconstructor
-	
+	void initializeBackground(Texture& tex, float speed);
 
 
 private:
 	// private functions
 	void setSpriteSpeed(float spriteSpeed); // function to set the sprite speed
 	void centerAndScaleSprite(RenderWindow& window);// function to center and scale sprites
-
+	
 	// overide functions
 	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
 	void renderObject(RenderWindow& window) override; // function to draw the object

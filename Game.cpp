@@ -73,7 +73,7 @@ void Game::initializeGameObjects()
 	this->initializeBullets();
 	this->initializeShip();
 
-
+	// calls a polymorphic initialize call to scale the sprites and set starting positions relative to the window
 
 	for (auto& currentobject : this->allObjectsInGame)
 	{
@@ -89,56 +89,33 @@ void Game::initializeGameObjects()
 
 void Game::initializeShip()
 {
-	int timesLooped = 0;
-	// create a ship using the ship texture and attach it to the game object pointer
-	for (int numberOfShipsToCreate = 0; numberOfShipsToCreate < this->MAX_SHIPS; timesLooped++)
-	{
-		if (this->allObjectsInGame[timesLooped] == nullptr)
-		{
-			this->allObjectsInGame[timesLooped] = std::make_unique<Ship>(this->shipTexture);
-			numberOfShipsToCreate++;
-			
-		}
-		if (timesLooped == (TOTAL_GAME_OBJECTS - 1))
-		{
-			break; // breaks the loop if you would go over the total size of the array
-		}
-	}
+	// set the texture of the ship
+	this->playerShip.setTexture(this->shipTexture);
+	// set the pointer to the ship 
+	this->addGameObjectToPointerArray(&this->playerShip);
 
 }
 
 void Game::initializeBackgrounds()
 {
-	int timesLooped= 0;
-	for (int numberOfBackgroundsCreated = 0; numberOfBackgroundsCreated < this->MAX_BACKGROUND_LAYERS; timesLooped++)
+	// set the texture and speed for each background layer in the pool
+	for (int backgroundLooper = 0; backgroundLooper < MAX_BACKGROUND_LAYERS; backgroundLooper++)
 	{
-		if (this->allObjectsInGame[timesLooped] == nullptr)
-		{
-			this->allObjectsInGame[timesLooped] = std::make_unique<Background>(this->BackgroudTextures[numberOfBackgroundsCreated], this->backgroundSpeedArray[numberOfBackgroundsCreated]);
-			numberOfBackgroundsCreated++;
-		}
-		if (timesLooped == (TOTAL_GAME_OBJECTS - 1))
-		{
-			break; // breaks the loop if you would go over the total size of the array
-		}
+		this->backgroundPool[backgroundLooper].initializeBackground(this->BackgroudTextures[backgroundLooper], this->backgroundSpeedArray[backgroundLooper]);
+
+		// set a pointer in the all object array to a copy of each of background in the background array for polymorphic update and render calling 
+		this->addGameObjectToPointerArray(&this->backgroundPool[backgroundLooper]);
 	}
+
 
 }
 
 void Game::initializeBullets()
 {
-	int timesLooped = 0;
-	for (int numberOfBulletsCreated = 0; numberOfBulletsCreated < this->MAX_BULLETS; timesLooped++)
+	for (int bulletLooper = 0; bulletLooper < MAX_BULLETS; bulletLooper++)
 	{
-		if (this->allObjectsInGame[timesLooped] == nullptr)
-		{
-			this->allObjectsInGame[timesLooped] = std::make_unique<Bullet>(this->bulletTexture, this->BULLET_SPEED); // creates bullets using the texture and speed const
-			numberOfBulletsCreated++;
-		}
-		if (timesLooped == (TOTAL_GAME_OBJECTS - 1))
-		{
-			break; // breaks the loop if you would go over the total size of the array
-		}
+		this->bulletPool[bulletLooper].setTexture(this->bulletTexture);
+		this->addGameObjectToPointerArray(& this->bulletPool[bulletLooper]);
 	}
 
 }
@@ -269,5 +246,19 @@ void Game::fireBullet()
 				
 		}
 	}
+}
+
+void Game::addGameObjectToPointerArray(Game_Object* objectPassedIn)
+{
+	for (int pointerLooper = 0; pointerLooper < TOTAL_GAME_OBJECTS; pointerLooper++)
+	{
+		if (this->allObjectsInGame[pointerLooper] == nullptr)
+		{
+			this->allObjectsInGame[pointerLooper] = objectPassedIn;
+			return; // breaks the loop and returns out the function after adding in the object
+		}
+	}
+
+
 }
 

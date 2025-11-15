@@ -1,11 +1,10 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Texture &tex, const float bulletSpeed)
+Bullet::Bullet()
 {
-	// create the bullet set the texture to the passed in texture and bullet speed to passed in float
-	this->bulletSpeed = bulletSpeed;
-	this->bulletVelocity.x = this->bulletSpeed;
-	this->bulletSprite.setTexture(tex);
+	// create the bullet set it inactive by default
+
+	
 	this->object_type = BULLET;
 	this->deactivate(); // set the bullet to not active by default
 
@@ -25,6 +24,11 @@ void Bullet::scaleAndCentre(RenderWindow& window)
 	this->bulletSprite.setScale(scaleX, scaleY); // scale the bullet based on the scale amount you want 
 	this->bulletSprite.setOrigin(static_cast<float>(bulletBounds.width) / 2.0f, static_cast<float>(bulletBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
 
+}
+
+void Bullet::setTexture(Texture& tex)
+{
+	this->bulletSprite.setTexture(tex);
 }
 
 
@@ -71,10 +75,7 @@ void Bullet::renderObject(RenderWindow& window)
 	
 }
 
-FloatRect Bullet::getBounds()
-{
-	return this->bulletSprite.getGlobalBounds();
-}
+
 
 void Bullet::initializeObject(RenderWindow& window)
 {
@@ -86,28 +87,3 @@ void Bullet::initializeObject(RenderWindow& window)
 
 }
 
-Game_Object::type Bullet::getType()
-{
-	return this->object_type;
-}
-
-IntRect Bullet::getTextureRect()
-{
-	return this->bulletSprite.getTextureRect();
-}
-
-void Bullet::setTextureRect(IntRect rect)
-{
-	this->bulletSprite.setTextureRect(rect);
-}
-
-Vector2f Bullet::getPosition()
-{
-	return this->bulletSprite.getPosition();
-}
-
-void Bullet::setPosition(Vector2f pos)
-{
-	this->bulletSprite.setPosition(pos);
-	this->setToActive();
-}

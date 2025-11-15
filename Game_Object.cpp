@@ -14,3 +14,8 @@ void Game_Object::deactivate()
 {
     this->is_active = false;
 }
+
+Game_Object::type Game_Object::getType()
+{
+    return this->object_type;
+}
