@@ -32,9 +32,10 @@ private:
 	void initializeTextures(); // function to load the textures from the file paths 
 	void initializeFontAndText(); // function to load the font and set any game text
 	void initializeGameObjects(); // calls initialize on all the game objects in the array
-	void initializeShip(); // creates a ship object using the texture
-	void initializeBackgrounds(); // creates the background objects using textures
-	void initializeBullets(); // creates the bullets objects and sets them to no active by default 
+	void initializeShip(); // initialize the  ship object using the texture
+	void initializeBackgrounds(); // initialize the background objects using textures
+	void initializeBullets(); // initialize the bullets objects textures and sets them to no active by default 
+	void initializeAsteroids(); // initialize the asteroids in the pool and set to not active by default
 
 	void pollEvents(); // Function to poll window events 
 
@@ -61,7 +62,7 @@ private:
 	// pools of objects for better cache coherence and refrencing
 	Bullet bulletPool[MAX_BULLETS];
 	Background backgroundPool[MAX_BACKGROUND_LAYERS];
-	//Asteroids asteroidPool[MAX_ASTEROIDS];
+	Asteroids asteroidPool[MAX_ASTEROIDS];
 	Ship playerShip;
 
 	// input manager object

@@ -72,6 +72,7 @@ void Game::initializeGameObjects()
 
 	// set the pointers to the objects in the pools the order is also the order in which they are rendered and updated 
 	this->initializeBackgrounds();
+	this->initializeAsteroids();
 	this->initializeBullets();
 	this->initializeShip();
 
@@ -120,6 +121,15 @@ void Game::initializeBullets()
 		this->addGameObjectToPointerArray( this->bulletPool[bulletLooper]);
 	}
 
+}
+
+void Game::initializeAsteroids()
+{
+	for (int asteroidLooper = 0; asteroidLooper < MAX_ASTEROIDS; asteroidLooper++)
+	{
+		this->asteroidPool[asteroidLooper].setTexture(this->AsteroidTexture);
+		this->addGameObjectToPointerArray(this->asteroidPool[asteroidLooper]);
+	}
 }
 
 
@@ -232,18 +242,18 @@ void Game::addGameObjectToPointerArray(Game_Object& objectPassedIn)
 
 void Game::fireBullet(bool readyToFire)
 {
+	
 	if (readyToFire) // if the player wants to fire
 	{
-		for (Bullet& bulletInPool : this->bulletPool) // loop throught the bullet pool 
-		{
-			if (!bulletInPool.getIsActive()) // if a bullet is not active
+			for (Bullet& bulletInPool : this->bulletPool) // loop throught the bullet pool 
 			{
-				bulletInPool.fireBullet(this->playerShip.getPosition()); // fire the bullet 
-				this->playerInput.resetReadyToFire(); // reset the fire flag
-				break; // break the loop so only 1 bullet is fired 
+				if (!bulletInPool.getIsActive()) // if a bullet is not active
+				{
+					bulletInPool.fireBullet(this->playerShip.getPosition()); // fire the bullet 
+					this->playerInput.resetReadyToFire(); // reset the fire flag
+					break; // should ensure that only 1 bullet is fired 
+				}
 			}
-		}
-
 	}
 }
 

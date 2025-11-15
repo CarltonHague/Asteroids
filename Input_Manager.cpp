@@ -40,8 +40,8 @@ void Input_Manager::updateInput(Time deltaTime)
 
 void Input_Manager::resetReadyToFire()
 {
-	this->inputFire = false;
-	this->fireRateTracker = 0.f;
+	this->inputFire = false; // resets the fire flag to false
+	this->fireRateTracker = 0.f; // resets the fire rate tracker 
 }
 
 bool Input_Manager::getUp()

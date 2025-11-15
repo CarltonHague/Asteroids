@@ -1,14 +1,14 @@
 #pragma once
 #include"SFML/Graphics.hpp"
 using namespace sf;
-// Class for managing the player input could be expanded to allow for controller support etc
+// Class for managing the player input flags could be expanded to allow for controller support etc
 
 class Input_Manager
 {
 public:
 	Input_Manager(); // constructor 
 	void updateInput(Time deltaTime); // update the bools based on the players input
-	void resetReadyToFire();
+	void resetReadyToFire(); // function to be called after firing a bullet to reset fire flags and timer
 	bool getUp();
 	bool GetDown();
 	bool getLeft();
