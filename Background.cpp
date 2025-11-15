@@ -56,38 +56,11 @@ void Background::renderObject(RenderWindow& window)
 	window.draw(this->backgroundSprite);
 }
 
-FloatRect Background::getBounds()
-{
-	return this->backgroundSprite.getGlobalBounds();
-}
+
 
 void Background::initializeObject(RenderWindow& window)
 {
 	this->centerAndScaleSprite(window);
 }
 
-Game_Object::type Background::getType()
-{
-	return object_type;
-}
 
-IntRect Background::getTextureRect()
-{
-	return this->backgroundSprite.getTextureRect();
-}
-
-void Background::setTextureRect(IntRect rect)
-{
-	this->backgroundSpriteRect = rect;
-	this->backgroundSprite.setTextureRect(this->backgroundSpriteRect);
-}
-
-Vector2f Background::getPosition()
-{
-	return this->backgroundSprite.getPosition();
-}
-
-void Background::setPosition(Vector2f pos)
-{
-	this->backgroundSprite.setPosition(pos);
-}

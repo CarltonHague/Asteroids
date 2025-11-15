@@ -7,7 +7,14 @@
 #include "cassert"
 #include "memory"
 
-// class containing all the game logic and constant vairbles
+
+// game manager style class contains:  The main update loop 
+//                                     Initialize functions 
+//                                     Render loop 
+//                                     Textures and fonts
+//                                     Pools for game objects (ship, asteroids and bullets)
+//                                     Game state Logic
+//                                     RenderWindow vairables and object
 
 
 class Game
@@ -29,21 +36,25 @@ private:
 	void initializeShip(); // creates a ship object using the texture
 	void initializeBackgrounds(); // creates the background objects using textures
 	void initializeBullets(); // creates the bullets objects and sets them to no active by default 
+
 	void pollEvents(); // Function to poll window events 
+
 	void updateGame(); // Function to update the game
 	void updateGameObjects(); // function to update all the game objects in the array using overriden virtual function calls
-	void renderGame(); // Function to render the game objects
-	void renderGameObjects();
+
+	void renderGame(); // Function to render the game 
+	void renderGameObjects(); // polymorphic call that renders all the game objects
+
+	// Helper functions 
 	bool loadBackgroundTexture(std::string& filename, Texture& texture); // function to load textures with repeating 
 	bool loadTexture(const std::string& filename, Texture& texture); // function to load textures without repeating
-	void fireBullet(); // function to allow the player to shoot
-	void addGameObjectToPointerArray(Game_Object* obj); // adds the objet being passed into the function to the array for polymorphic update and rendering calls
+	void addGameObjectToPointerArray(Game_Object& obj); // adds the objet being passed into the function to the array for polymorphic update and rendering calls
 
 
 	// Number of game Objects
     static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 16, MAX_BULLETS = 32;
 	static const int TOTAL_GAME_OBJECTS = (MAX_BACKGROUND_LAYERS + MAX_SHIPS + MAX_ASTEROIDS + MAX_BULLETS);
-	Game_Object * allObjectsInGame[TOTAL_GAME_OBJECTS]; // An array of game object pointers for polymorphic function calls 
+	Game_Object* allObjectsInGame[TOTAL_GAME_OBJECTS] = { nullptr }; // An array of game object pointers for polymorphic function calls set to null by default
 
 	// an array of background speeds for moving the background sprites 0 is the furthest and 7 is the closest sprite
 	const float backgroundSpeedArray[MAX_BACKGROUND_LAYERS]{ 10.f,35.f,45.f,45.f,60.f,180.f,180.f,240.f };

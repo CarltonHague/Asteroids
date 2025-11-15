@@ -68,7 +68,9 @@ void Game::initializeFontAndText()
 
 void Game::initializeGameObjects()
 {
-	// the order in which these objects are created is important as it is the order in which they will render or update
+	
+
+	// set the pointers to the objects in the pools the order is also the order in which they are rendered and updated 
 	this->initializeBackgrounds();
 	this->initializeBullets();
 	this->initializeShip();
@@ -77,7 +79,7 @@ void Game::initializeGameObjects()
 
 	for (auto& currentobject : this->allObjectsInGame)
 	{
-		if (currentobject)
+		if (currentobject != nullptr)
 		{
 			currentobject->initializeObject(this->window);
 		}
@@ -92,7 +94,7 @@ void Game::initializeShip()
 	// set the texture of the ship
 	this->playerShip.setTexture(this->shipTexture);
 	// set the pointer to the ship 
-	this->addGameObjectToPointerArray(&this->playerShip);
+	this->addGameObjectToPointerArray(this->playerShip);
 
 }
 
@@ -104,7 +106,7 @@ void Game::initializeBackgrounds()
 		this->backgroundPool[backgroundLooper].initializeBackground(this->BackgroudTextures[backgroundLooper], this->backgroundSpeedArray[backgroundLooper]);
 
 		// set a pointer in the all object array to a copy of each of background in the background array for polymorphic update and render calling 
-		this->addGameObjectToPointerArray(&this->backgroundPool[backgroundLooper]);
+		this->addGameObjectToPointerArray(this->backgroundPool[backgroundLooper]);
 	}
 
 
@@ -115,7 +117,7 @@ void Game::initializeBullets()
 	for (int bulletLooper = 0; bulletLooper < MAX_BULLETS; bulletLooper++)
 	{
 		this->bulletPool[bulletLooper].setTexture(this->bulletTexture);
-		this->addGameObjectToPointerArray(& this->bulletPool[bulletLooper]);
+		this->addGameObjectToPointerArray( this->bulletPool[bulletLooper]);
 	}
 
 }
@@ -137,7 +139,6 @@ void Game::pollEvents()
 void Game::updateGame()
 {
 	this->deltaTime = this->gameClock.restart();
-	this->fireBullet();
 	this->updateGameObjects();
 }
 
@@ -210,51 +211,15 @@ bool Game::loadTexture(const std::string& filename, Texture& texture)
 	return false;
 }
 
-void Game::fireBullet()
-{
-	this->bulletTimerTracker += this->deltaTime.asSeconds(); // add the frame time to the bullet timer 
-	if (this->bulletTimerTracker >= this->SHOOT_SPEED) // if the ship is ready to shoot 
-	{
-		if (Keyboard::isKeyPressed(Keyboard::Space)) // if the player presses space bar
-		{
-			for (auto& objectInLoop : this->allObjectsInGame)
-			{
-				if (objectInLoop)
-				{
-					if (objectInLoop->getType() == Game_Object::SHIP && objectInLoop->getIsActive())
-					{
 
-						Vector2f shipPos = objectInLoop->getPosition(); // get the position of the ship
 
-						for (auto& bulletInLoop : this->allObjectsInGame) // loop again and look for a non active bullet in the object pool 
-						{
-							if (bulletInLoop)
-							{
-								if (bulletInLoop->getType() == Game_Object::BULLET && !bulletInLoop->getIsActive())
-								{
-									bulletInLoop->setPosition(shipPos); // set the position of the bullet = to the ship and activate it 
- 									this->bulletTimerTracker = 0; // reset the timer
-									break; // break loop to ensure only 1 bullet is fired 
-								}
-							}
-						}
-					}
-
-				}
-			}
-				
-				
-		}
-	}
-}
-
-void Game::addGameObjectToPointerArray(Game_Object* objectPassedIn)
+void Game::addGameObjectToPointerArray(Game_Object& objectPassedIn)
 {
 	for (int pointerLooper = 0; pointerLooper < TOTAL_GAME_OBJECTS; pointerLooper++)
 	{
 		if (this->allObjectsInGame[pointerLooper] == nullptr)
 		{
-			this->allObjectsInGame[pointerLooper] = objectPassedIn;
+			this->allObjectsInGame[pointerLooper] = &objectPassedIn;
 			return; // breaks the loop and returns out the function after adding in the object
 		}
 	}
