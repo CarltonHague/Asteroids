@@ -7,16 +7,16 @@ public:
 	Background(); // constructor 
 	~Background() override; // deconstructor
 	void initializeBackground(Texture& tex, float speed);
-
+	// public overide functions  so that the start screen and endscreen can render and update it 
+	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
+	void renderObject(RenderWindow& window) override; // function to draw the object
 
 private:
 	// private functions
 	void setSpriteSpeed(float spriteSpeed); // function to set the sprite speed
 	void centerAndScaleSprite(RenderWindow& window);// function to center and scale sprites
 	
-	// overide functions
-	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
-	void renderObject(RenderWindow& window) override; // function to draw the object
+	// private overide functions
 	void initializeObject(RenderWindow& window) override; // function to initialize the object such as scaling and placement on screen
 
 	// background vairables

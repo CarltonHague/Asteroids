@@ -68,6 +68,10 @@ void Game::initializeFontAndText()
 	this->startScreenText.setFont(this->gameFont);
 	this->playerHealthText.setFont(this->gameFont);
 	this->gameOverText.setFont(this->gameFont);
+	// set the color of the text 
+	this->startScreenText.setFillColor(Color::Black);
+	this->playerHealthText.setFillColor(Color::Black);
+	this->gameOverText.setFillColor(Color::Black);
 	// set the size of the fonts 
 	this->startScreenText.setCharacterSize(this->START_SIZE);
 	this->playerHealthText.setCharacterSize(this->PLAYER_STATS_SIZE);
@@ -80,6 +84,18 @@ void Game::initializeFontAndText()
 
 	this->sameOverStream << "Game Over!\nScore: " << this->score << "\nPress esc to quit the game";
 	this->gameOverText.setString(this->sameOverStream.str());
+
+	// set the location of the text objects and center the text
+	this->centerOfTheScreenTextLocation = Vector2f(this->window.getSize().x / 2, this->window.getSize().y / 2); // get the center of the screen as a vector 
+
+	this->startScreenText.setPosition(this->centerOfTheScreenTextLocation);
+    this->startScreenText.setOrigin(this->startScreenText.getGlobalBounds().width / 2, this->startScreenText.getGlobalBounds().height / 2); 
+
+	this->playerHealthText.setPosition(this->playerStatsLocation);
+	this->playerHealthText.setOrigin(this->playerHealthText.getGlobalBounds().width / 2, this->playerHealthText.getGlobalBounds().height / 2);
+
+	this->gameOverText.setPosition(this->centerOfTheScreenTextLocation);
+	this->gameOverText.setOrigin(this->gameOverText.getGlobalBounds().width / 2, this->gameOverText.getGlobalBounds().height / 2);
 
 }
 
@@ -162,6 +178,14 @@ void Game::pollEvents()
 		{
 			this->window.close();
 		}
+		// if the game state is startscreen poll for the enter key to be pressed and change the game state to playing
+		if (this->currentGameState == STARTSCREEN)
+		{
+			if (this->gamePoller.key.code == Keyboard::Enter)
+			{
+				this->currentGameState = PLAYING;
+			}
+		}
 	}
 
 }
@@ -169,12 +193,22 @@ void Game::pollEvents()
 void Game::updateGame()
 {
 	this->deltaTime = this->gameClock.restart(); // capture delta time
-	this->spawnAsteroid();
-	this->playerInput.updateInput(this->deltaTime); // checks to see what input the player wants to do 
-	this->playerShip.updateDirection(this->playerInput.getUp(), this->playerInput.GetDown(), this->playerInput.getLeft(), this->playerInput.getRight()); // update direction using flags from input handler
-	this->fireBullet(this->playerInput.getFire()); // if the fire flag is set in the input manager fire a bullet 
-	this->updateGameObjects(); // moves and updates all the objects in the game using a polymorphic function call 
-	this->collisionChecker.updateCollision(this->allCollideableObjects, this->COLLIDEABLE_OBJECTS); // polymorphic collision call checks all collideable objects and works out collision and outcomes
+	// if the game state is game over or playing update the background objects on their own
+	if (this->currentGameState == GAMEOVER || this->currentGameState == STARTSCREEN)
+	{
+		this->updateBackground();
+	}
+	// if the game state is playing update the game loop
+	if (this->currentGameState == PLAYING)
+	{
+		this->spawnAsteroid();
+		this->playerInput.updateInput(this->deltaTime); // checks to see what input the player wants to do 
+		this->playerShip.updateDirection(this->playerInput.getUp(), this->playerInput.GetDown(), this->playerInput.getLeft(), this->playerInput.getRight()); // update direction using flags from input handler
+		this->fireBullet(this->playerInput.getFire()); // if the fire flag is set in the input manager fire a bullet 
+		this->updateGameObjects(); // moves and updates all the objects in the game using a polymorphic function call 
+		this->collisionChecker.updateCollision(this->allCollideableObjects, this->COLLIDEABLE_OBJECTS); // polymorphic collision call checks all collideable objects and works out collision and outcomes
+	}
+	
 }
 
 void Game::updateGameObjects()
@@ -192,15 +226,37 @@ void Game::updateGameObjects()
 	}
 }
 
+void Game::updateBackground()
+{
+	for (Background& currentBackground : this->backgroundPool)
+	{
+		currentBackground.updateObject(this->deltaTime, this->window);
+	}
+}
+
+void Game::updatePlayerStats()
+{
+	
+}
+
+
 void Game::renderGame()
 {
 	// clear the window
 	this->window.clear();
 	// draw objects here
-    this->renderGameObjects();
-
-
-
+	if (this->currentGameState == STARTSCREEN)
+	{
+		this->renderStartScreen();
+	}
+	if (this->currentGameState == PLAYING)
+	{
+		this->renderGameObjects();
+	}
+	if (this->currentGameState == GAMEOVER)
+	{
+		this->renderEndScreen();
+	}
 	// display the window
 	this->window.display();
 
@@ -221,6 +277,24 @@ void Game::renderGameObjects()
 
 	}
 
+}
+
+void Game::renderStartScreen()
+{
+	for (Background& currentBackground : this->backgroundPool)
+	{
+		currentBackground.renderObject(this->window);
+	}
+	window.draw(this->startScreenText);
+}
+
+void Game::renderEndScreen()
+{
+	for (Background& currentBackground : this->backgroundPool)
+	{
+		currentBackground.renderObject(this->window);
+	}
+	window.draw(this->gameOverText);
 }
 
 bool Game::loadBackgroundTexture( std::string& filename, Texture& texture)

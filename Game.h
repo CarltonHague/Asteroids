@@ -42,11 +42,17 @@ private:
 
 	void pollEvents(); // Function to poll window events 
 
-	void updateGame(); // Function to update the game
+	void updateGame(); // Function to update the game 
 	void updateGameObjects(); // function to update all the game objects in the array using overriden virtual function calls
+	void updateBackground(); // update the background for startScreen and end game states
+	void updatePlayerStats(); // updates the player health and score
+	
 
 	void renderGame(); // Function to render the game 
 	void renderGameObjects(); // polymorphic call that renders all the game objects
+	void renderStartScreen();
+	void renderEndScreen();
+	void renderPlayerStats();
 
 	// Helper functions 
 	bool loadBackgroundTexture(std::string& filename, Texture& texture); // function to load textures with repeating 
@@ -114,7 +120,7 @@ private:
 	Text startScreenText;
 	Text gameOverText;
 	Text playerHealthText;
-	const std::string startScreenString = "WSAD or arrow keys to move Spacebar to fire!\nPress enter to play!";
+	const std::string startScreenString = "WSAD or arrow keys to move Spacebar to fire\n                   Press enter to play!";
 	std::stringstream playerHealthStream;
 	std::stringstream sameOverStream;
 	const int START_SIZE = 74, PLAYER_STATS_SIZE = 30, ENDING_SIZE = 74; // Size of the text
