@@ -6,6 +6,7 @@
 #include "Asteroids.h"
 #include "cassert"
 #include "Input_Manager.h"
+#include "Collision_Manager.h"
 
 
 // game manager style class contains:  The main update loop 
@@ -70,6 +71,9 @@ private:
 
 	// input manager object
 	Input_Manager playerInput;
+
+	// collision manager
+	Collision_Manager collisionChecker;
 
 	// window vairables
 	RenderWindow window;

@@ -153,9 +153,10 @@ void Game::updateGame()
 {
 	this->deltaTime = this->gameClock.restart(); // capture delta time
 	this->playerInput.updateInput(this->deltaTime); // checks to see what input the player wants to do 
-	this->playerShip.updateDirection(this->playerInput.getUp(), this->playerInput.GetDown(), this->playerInput.getLeft(), this->playerInput.getRight()); 
+	this->playerShip.updateDirection(this->playerInput.getUp(), this->playerInput.GetDown(), this->playerInput.getLeft(), this->playerInput.getRight()); // update direction using flags from input handler
 	this->fireBullet(this->playerInput.getFire()); // if the fire flag is set in the input manager fire a bullet 
 	this->updateGameObjects(); // moves and updates all the objects in the game using a polymorphic function call 
+	this->collisionChecker.updateCollision(this->allCollideableObjects, this->COLLIDEABLE_OBJECTS); // polymorphic collision call checks all collideable objects and works out collision and outcomes
 }
 
 void Game::updateGameObjects()

@@ -11,9 +11,9 @@ public:
 
 
 	// regular functions
-	bool getIsActive(); // function to see if the object is active or not for rendering and collision
-	void setToActive(); // function to set the current active state to true
-	void deactivate(); // function to set the current active state to false
+	bool getIsActive() { return this->is_active; } // function to see if the object is active or not for rendering and collision
+	void setToActive() { this->is_active = true; } // function to set the current active state to true
+	void deactivate() { this->is_active = false; }// function to set the current active state to false
 	
 
 	// virtual functions
