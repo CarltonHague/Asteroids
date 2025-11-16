@@ -8,11 +8,13 @@ public:
 	void resetAsteroid(); // function to reset the asteroid 
 	void setTexture(Texture& tex); // set the texture of the sprite
 	~Asteroids() override;  // deconstructor 
+	void spawnAsteroid(float yPos, RenderWindow &window); // function to spawn an asteroid using the y position provided 
 
 private:
 	// private functions 
 	void animateAsteroid(); // function to animate the asteroid using the texture rect
 	void turnOffAsteroid(); // function to turn off the asteroid object from collision and render/update loops
+	void turnOnAsteroid(); // function to activate the asteroid for updating and collision 
 	
 
 	// overide functions 
@@ -31,7 +33,7 @@ private:
 	IntRect asteroidRect = IntRect(0, 0, this->SPRITE_SIZE, this->SPRITE_SIZE); // the int rect for the asteroid animation
 	int asteroidHealth = 0;
 	const int BULLET_DAMAGE = 5, LARGE_ASTEROID_HP = 15, SMALL_ASTEROID_HP = 5, NORMAL_ASTEROID_HP = 10; // Max hp for asteroid depending on size and bullets damage amount
-
-
+	const float ANIMATION_SPEED = 0.24; // around 25 frames per second 
+	float animationTracker = 0.f;
 };
 

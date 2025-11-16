@@ -13,7 +13,7 @@
 //                                     Initialize functions 
 //                                     Render loop 
 //                                     Textures and fonts
-//                                     Pools for game objects (ship, asteroids and bullets)
+//                                     Pools for game objects (ship, asteroids, bullets and backgrounds)
 //                                     Game state Logic
 //                                     RenderWindow vairables and object
 
@@ -53,6 +53,7 @@ private:
 	void addGameObjectToPointerArray(Game_Object * object); // adds the objet being passed into the function to the array for polymorphic update and rendering calls
 	void addCollideableObjectToArray(Collidable_Object* cObject); // adds an object to the collision array for polymorphic collision calling
 	void fireBullet(bool readyToFire); // fire a bullet using the input manager ready to fire bool
+	void spawnAsteroid(); // spawns an asteroid on a fixed timer 
 
 	// Number of game Objects
     static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 16, MAX_BULLETS = 32;
@@ -82,7 +83,9 @@ private:
 	const std::string GAME_TITLE = "Asteroids Game";
 	const int WINDOW_WIDTH = 1920, WINDOW_HEIGHT = 1080;
 	
-	
+	// asteroid spawn timer 
+	const float ASTEROID_SPAWN_TIMER = 10.f; // spawntimer in seconds 
+	float asteroidTimerTracker = ASTEROID_SPAWN_TIMER; // set to spawn one on game start
 
 	// game logic vairables  
 	Event gamePoller;

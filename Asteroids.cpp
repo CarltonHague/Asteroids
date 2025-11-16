@@ -43,14 +43,30 @@ void Asteroids::turnOffAsteroid()
 	this->notCollideable();
 }
 
+void Asteroids::turnOnAsteroid()
+{
+	this->setCollideable();
+	this->setToActive();
+}
+
 
 
 void Asteroids::updateObject(Time deltaTime, RenderWindow& window)
 {
+	if (asteroidHealth <= 0) // if the asteroid is dead remove it from the game
+	{
+		this->resetAsteroid();
+
+	}
 	if (this->getIsActive()) // if the asteroid is active
 	{
-		this->asteroidSprite.move(this->ASTEROID_MOVE_VECTOR);
-		this->animateAsteroid();
+		this->asteroidSprite.move(this->ASTEROID_MOVE_VECTOR.x * deltaTime.asSeconds(),this->ASTEROID_MOVE_VECTOR.y *deltaTime.asSeconds());
+		this->animationTracker += deltaTime.asSeconds(); // use delta time to track the speed at which the animation updates 
+		if (this->animationTracker >= this->ANIMATION_SPEED)
+		{
+			this->animateAsteroid();// update the animation 
+			this->animationTracker = 0.f; // reset the tracker 
+		}
 
 		Vector2f asteroidPos = this->asteroidSprite.getPosition(); // get the current location of the asteroid
 		if (asteroidPos.x >= window.getSize().x ||  // check to see if it leaves the window
@@ -62,7 +78,7 @@ void Asteroids::updateObject(Time deltaTime, RenderWindow& window)
 			this->resetAsteroid();
 
         }
-
+		
 
 
 	}
@@ -113,4 +129,40 @@ void Asteroids::collisionOutcome(bool collisionFlag, type whatHitYou)
 
 Asteroids::~Asteroids()
 {
+}
+
+void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
+{
+	int whatKindOfAsteroidSpawned = rand() % 3 + 1; // rolls a number between 1 and 3
+	// spawn an asteroid based on the number rolled either large, small or normal
+	switch (whatKindOfAsteroidSpawned)
+	{
+	case 1: 
+		this->object_type = SMALL_ASTEROID;
+		this->asteroidHealth = SMALL_ASTEROID_HP;
+		this->asteroidSprite.setPosition(window.getSize().x, yPos);
+		this->turnOnAsteroid();
+		break;
+	case 2:
+		this->object_type = NORMAL_ASTEROID;
+		this->asteroidHealth = NORMAL_ASTEROID_HP;
+		this->asteroidSprite.setPosition(window.getSize().x, yPos);
+		this->turnOnAsteroid();
+		break;
+	case 3:
+		this->object_type = LARGE_ASTEROID;
+		this->asteroidHealth = LARGE_ASTEROID_HP;
+		this->asteroidSprite.setPosition(window.getSize().x, yPos);
+		this->turnOnAsteroid();
+		break;
+
+	default:
+		break;
+	}
+
+
+
+
+
+
 }

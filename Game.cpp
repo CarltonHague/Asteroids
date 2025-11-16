@@ -152,6 +152,7 @@ void Game::pollEvents()
 void Game::updateGame()
 {
 	this->deltaTime = this->gameClock.restart(); // capture delta time
+	this->spawnAsteroid();
 	this->playerInput.updateInput(this->deltaTime); // checks to see what input the player wants to do 
 	this->playerShip.updateDirection(this->playerInput.getUp(), this->playerInput.GetDown(), this->playerInput.getLeft(), this->playerInput.getRight()); // update direction using flags from input handler
 	this->fireBullet(this->playerInput.getFire()); // if the fire flag is set in the input manager fire a bullet 
@@ -273,6 +274,20 @@ void Game::fireBullet(bool readyToFire)
 					break; // should ensure that only 1 bullet is fired 
 				}
 			}
+	}
+}
+
+void Game::spawnAsteroid()
+{
+	float randomYPos = rand() % this->window.getSize().y;
+	this->asteroidTimerTracker += this->deltaTime.asSeconds();
+	if (this->asteroidTimerTracker >= this->ASTEROID_SPAWN_TIMER)
+	{
+		for (Asteroids& currentAsteroid : this->asteroidPool)
+		{
+			currentAsteroid.spawnAsteroid(randomYPos, this->window);
+			this->asteroidTimerTracker = 0.f;
+		}
 	}
 }
 
