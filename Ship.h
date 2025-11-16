@@ -9,7 +9,7 @@ public:
 	 void setTexture(Texture& tex); // function to set the texture of the ship
 	 void updateDirection(bool up, bool down, bool left, bool right); // updates the ships direction based on user input
 	 Vector2f getPosition(); // get the current location of the ship for shooting
-
+	 int getShipHealth(); // returns the current health of the ship
 private:
 	// private functions
 	 void scaleAndCenterOrigin(RenderWindow& window); // function to scale the ship and set the origin to the center

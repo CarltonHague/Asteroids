@@ -7,6 +7,7 @@
 #include "cassert"
 #include "Input_Manager.h"
 #include "Collision_Manager.h"
+#include <sstream>
 
 
 // game manager style class contains:  The main update loop 
@@ -99,14 +100,25 @@ private:
 		GAMEOVER
 	};
 	gameState currentGameState = STARTSCREEN;
+	int score = 0; // the score of the player
 
-	// textures and fonts 
+	// textures
 	Texture BackgroudTextures[MAX_BACKGROUND_LAYERS];
 	std::string backgroundFilePaths[MAX_BACKGROUND_LAYERS];
 	Texture shipTexture;
 	Texture bulletTexture;
 	Texture AsteroidTexture;
-	Font gameFont;
 
+	// text and fonts
+	Font gameFont;
+	Text startScreenText;
+	Text gameOverText;
+	Text playerHealthText;
+	const std::string startScreenString = "WSAD or arrow keys to move Spacebar to fire!\nPress enter to play!";
+	std::stringstream playerHealthStream;
+	std::stringstream sameOverStream;
+	const int START_SIZE = 74, PLAYER_STATS_SIZE = 30, ENDING_SIZE = 74; // Size of the text
+	const Vector2f playerStatsLocation = Vector2f(10, 10); // location of the player stats
+	Vector2f centerOfTheScreenTextLocation = Vector2f(0.f,0.f); // the center of the screen for the other text objects on the star and end screen
 };
 

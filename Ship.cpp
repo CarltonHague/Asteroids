@@ -69,6 +69,11 @@ Vector2f Ship::getPosition()
 	return this->shipSprite.getPosition();
 }
 
+int Ship::getShipHealth()
+{
+	return this->shipHealth;
+}
+
 void Ship::updateObject(Time deltaTime, RenderWindow& window)
 {
 	//check the ship direction and update the velocity accordingly

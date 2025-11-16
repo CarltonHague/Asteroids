@@ -64,6 +64,23 @@ void Game::initializeFontAndText()
 	{
 		assert(!this->gameFont.loadFromFile("Assets/fonts/comic.ttf"));
 	}
+	// set the font to the text objects 
+	this->startScreenText.setFont(this->gameFont);
+	this->playerHealthText.setFont(this->gameFont);
+	this->gameOverText.setFont(this->gameFont);
+	// set the size of the fonts 
+	this->startScreenText.setCharacterSize(this->START_SIZE);
+	this->playerHealthText.setCharacterSize(this->PLAYER_STATS_SIZE);
+	this->gameOverText.setCharacterSize(this->ENDING_SIZE);
+	// set the strings to the text objects
+	this->startScreenText.setString(this->startScreenString);
+	
+	this->playerHealthStream << "Health: " << this->playerShip.getShipHealth() << " Score: " << this->score;
+	this->playerHealthText.setString(this->playerHealthStream.str());
+
+	this->sameOverStream << "Game Over!\nScore: " << this->score << "\nPress esc to quit the game";
+	this->gameOverText.setString(this->sameOverStream.str());
+
 }
 
 void Game::initializeGameObjects()
