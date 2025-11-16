@@ -27,13 +27,14 @@ private:
 
 	//vairables
 	Sprite asteroidSprite;
-	const float ASTEROID_SPEED = -100.f; // ensure that this is negative so the asteroids spawn and move towards the player from the right of the screen
-	const Vector2f ASTEROID_MOVE_VECTOR = Vector2f(ASTEROID_SPEED, 0);
-	const int SPRITE_SIZE = 128; // The size of the sprite on the sheet
+	const float NORMAL_SPEED = -300.f, SMALL_SPEED = - 400, LARGE_SPEED = - 250; // Speeds for the asteroids ensure these are negative to allow for the asteroids to move towards the player
+	Vector2f ASTEROID_MOVE_VECTOR = Vector2f(0, 0);
+	const int SPRITE_SIZE = 102; // The size of the sprite on the sheet
 	IntRect asteroidRect = IntRect(0, 0, this->SPRITE_SIZE, this->SPRITE_SIZE); // the int rect for the asteroid animation
 	int asteroidHealth = 0;
 	const int BULLET_DAMAGE = 5, LARGE_ASTEROID_HP = 15, SMALL_ASTEROID_HP = 5, NORMAL_ASTEROID_HP = 10; // Max hp for asteroid depending on size and bullets damage amount
-	const float ANIMATION_SPEED = 0.24; // around 25 frames per second 
+	const float SMALL_SCALE = 0.5, LARGE_SCALE = 1.5, NORMAL_SCALE = 1; // scalers for changing the size of the asteroid 
+	const float ANIMATION_SPEED = 0.16; // around 60 frames per second 
 	float animationTracker = 0.f;
 };
 

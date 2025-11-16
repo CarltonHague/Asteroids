@@ -31,7 +31,7 @@ private:
 
 
 	// vairables 
-	const float BULLET_SPEED = 200.f;
+	const float BULLET_SPEED = 300.f;
 	const float BULLET_SCALE = 30.f; // scaler value of the bullet relative to the window size 
 	const float ANIMATION_SPEED = 0.2f; // the speed that the sprite changes between the two frames in seconds 
 	float animationTimer = 0.f;

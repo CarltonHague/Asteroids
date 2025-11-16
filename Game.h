@@ -83,9 +83,10 @@ private:
 	const std::string GAME_TITLE = "Asteroids Game";
 	const int WINDOW_WIDTH = 1920, WINDOW_HEIGHT = 1080;
 	
-	// asteroid spawn timer 
-	const float ASTEROID_SPAWN_TIMER = 10.f; // spawntimer in seconds 
+	// asteroid spawn timer (could be moved to a spawn handler class or struct in future updates) 
+	const float ASTEROID_SPAWN_TIMER = 1.f; // spawntimer in seconds 
 	float asteroidTimerTracker = ASTEROID_SPAWN_TIMER; // set to spawn one on game start
+	const float ASTEROID_BUFFER = 76.5; // the buffer for spawning the asteroid to ensure it is always within the bounds of the screen
 
 	// game logic vairables  
 	Event gamePoller;

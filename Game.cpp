@@ -164,9 +164,12 @@ void Game::updateGameObjects()
 {
 	for (auto& currentobject : this->allObjectsInGame) 
 	{
-		if (currentobject) // check to ensure that you are only updating the objects in the loop and not the pointers
+		if (currentobject != nullptr) // check to ensure that you are only updating the objects in the loop and not the pointers
 		{
-			currentobject->updateObject(this->deltaTime, this->window);
+			if (currentobject->getIsActive()) // only update active objects
+			{
+				currentobject->updateObject(this->deltaTime, this->window);
+			}
 		}
 
 	}
@@ -281,13 +284,27 @@ void Game::spawnAsteroid()
 {
 	float randomYPos = rand() % this->window.getSize().y;
 	this->asteroidTimerTracker += this->deltaTime.asSeconds();
-	if (this->asteroidTimerTracker >= this->ASTEROID_SPAWN_TIMER)
+	// buffer check to keep the sprite in screen bounds on spawn 
+	if (randomYPos < this->ASTEROID_BUFFER)
 	{
-		for (Asteroids& currentAsteroid : this->asteroidPool)
+		randomYPos += this->ASTEROID_BUFFER;
+	}
+	if (randomYPos > this->window.getSize().y - this->ASTEROID_BUFFER)
+	{
+		randomYPos  -= this->ASTEROID_BUFFER;
+	}
+	if (this->asteroidTimerTracker >= this->ASTEROID_SPAWN_TIMER) // check to see if the spawn timer is full 
+	{
+		for (Asteroids& currentAsteroid : this->asteroidPool) // loop through the pool to find an asteroid that inactive to spawn
 		{
-			currentAsteroid.spawnAsteroid(randomYPos, this->window);
-			this->asteroidTimerTracker = 0.f;
+			if (!currentAsteroid.getIsActive()) // check to see if the asteroid is inactive
+			{
+				currentAsteroid.spawnAsteroid(randomYPos, this->window);
+				break; // only spawn one asteroid per cycle
+			}
+			
 		}
+		this->asteroidTimerTracker = 0.f;
 	}
 }
 
