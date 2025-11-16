@@ -254,7 +254,7 @@ void Game::updatePlayerStats()
 		// clear the stream
 		this->sameOverStream.str("");
 		// update the score to the game over text
-		this->sameOverStream << "Game Over!\nYour score was: " << this->score << "\nPress esc to quit the game";
+		this->sameOverStream << "Game Over\nYour score was: " << this->score << "\nPress esc to quit the game";
 		this->gameOverText.setString(this->sameOverStream.str());
 		// set the game to game over and display the text
 		this->currentGameState = GAMEOVER;

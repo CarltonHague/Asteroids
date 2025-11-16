@@ -123,8 +123,8 @@ private:
 	const std::string startScreenString = "WSAD or arrow keys to move Spacebar to fire\n                   Press enter to play!";
 	std::stringstream playerHealthStream;
 	std::stringstream sameOverStream;
-	const int START_SIZE = 74, PLAYER_STATS_SIZE = 30, ENDING_SIZE = 74; // Size of the text
-	const Vector2f playerStatsLocation = Vector2f(100, 40); // location of the player stats
+	const int START_SIZE = 74, PLAYER_STATS_SIZE = 30, ENDING_SIZE = 84; // Size of the text
+	const Vector2f playerStatsLocation = Vector2f(100, 40); // location of the player stats should be the top left of the screen 
 	Vector2f centerOfTheScreenTextLocation = Vector2f(0.f,0.f); // the center of the screen for the other text objects on the star and end screen
 };
 
