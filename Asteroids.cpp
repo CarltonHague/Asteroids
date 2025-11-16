@@ -49,6 +49,23 @@ void Asteroids::turnOnAsteroid()
 	this->setToActive();
 }
 
+void Asteroids::killAsteroid()
+{
+	if (this->object_type == LARGE_ASTEROID)
+	{
+		this->scoreTracker += this->LARGE_SCORE;
+	}
+	if (this->object_type == SMALL_ASTEROID)
+	{
+		this->scoreTracker += this->SMALL_SCORE;
+	}
+	if (this->object_type == NORMAL_ASTEROID)
+	{
+		this->scoreTracker += this->NORMAL_SCORE;
+	}
+	this->resetAsteroid();
+}
+
 
 
 void Asteroids::updateObject(Time deltaTime, RenderWindow& window)
@@ -56,9 +73,9 @@ void Asteroids::updateObject(Time deltaTime, RenderWindow& window)
 	
 	if (this->getIsActive()) // if the asteroid is active
 	{
-		if (this->asteroidHealth <= 0) // if the asteroid is dead remove it from the game
+		if (this->asteroidHealth <= 0) // if the asteroid is dead deactivate it and add score to tracker
 		{
-			this->resetAsteroid();
+			this->killAsteroid();
 
 		}
 		this->asteroidSprite.move(this->ASTEROID_MOVE_VECTOR.x * deltaTime.asSeconds(),this->ASTEROID_MOVE_VECTOR.y *deltaTime.asSeconds());
@@ -176,4 +193,9 @@ void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
 
 
 
+}
+
+int Asteroids::getScore()
+{
+	return this->scoreTracker;
 }

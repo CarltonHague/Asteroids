@@ -79,10 +79,10 @@ void Game::initializeFontAndText()
 	// set the strings to the text objects
 	this->startScreenText.setString(this->startScreenString);
 	
-	this->playerHealthStream << "Health: " << this->playerShip.getShipHealth() << " Score: " << this->score;
+	this->playerHealthStream << "Health: " << this->playerShip.getShipHealth() << "\nScore: " << this->score;
 	this->playerHealthText.setString(this->playerHealthStream.str());
 
-	this->sameOverStream << "Game Over!\nScore: " << this->score << "\nPress esc to quit the game";
+	this->sameOverStream << "Game Over!\nYour score was: " << this->score << "!\nPress esc to quit the game";
 	this->gameOverText.setString(this->sameOverStream.str());
 
 	// set the location of the text objects and center the text
@@ -207,6 +207,7 @@ void Game::updateGame()
 		this->fireBullet(this->playerInput.getFire()); // if the fire flag is set in the input manager fire a bullet 
 		this->updateGameObjects(); // moves and updates all the objects in the game using a polymorphic function call 
 		this->collisionChecker.updateCollision(this->allCollideableObjects, this->COLLIDEABLE_OBJECTS); // polymorphic collision call checks all collideable objects and works out collision and outcomes
+		this->updatePlayerStats(); // update the player stats such as health and score
 	}
 	
 }
@@ -236,7 +237,28 @@ void Game::updateBackground()
 
 void Game::updatePlayerStats()
 {
-	
+	this->score = 0; // reset the score to 0 then calculate the new score
+	for (Asteroids& currentAsteroid : this->asteroidPool)
+	{
+		this->score += currentAsteroid.getScore();
+	}
+	int shipHp = this->playerShip.getShipHealth(); // get the ships current hp
+	// Clear the stream 
+	this->playerHealthStream.str("");
+	// update the player stat text
+	this->playerHealthStream << "Health: " << shipHp << "\nScore: " << this->score;
+	this->playerHealthText.setString(this->playerHealthStream.str());
+	// check to see if the game is over
+	if (shipHp <= 0)
+	{
+		// clear the stream
+		this->sameOverStream.str("");
+		// update the score to the game over text
+		this->sameOverStream << "Game Over!\nYour score was: " << this->score << "\nPress esc to quit the game";
+		this->gameOverText.setString(this->sameOverStream.str());
+		// set the game to game over and display the text
+		this->currentGameState = GAMEOVER;
+	}
 }
 
 
@@ -252,6 +274,7 @@ void Game::renderGame()
 	if (this->currentGameState == PLAYING)
 	{
 		this->renderGameObjects();
+		this->renderPlayerStats();
 	}
 	if (this->currentGameState == GAMEOVER)
 	{
@@ -295,6 +318,11 @@ void Game::renderEndScreen()
 		currentBackground.renderObject(this->window);
 	}
 	window.draw(this->gameOverText);
+}
+
+void Game::renderPlayerStats()
+{
+	this->window.draw(this->playerHealthText);
 }
 
 bool Game::loadBackgroundTexture( std::string& filename, Texture& texture)

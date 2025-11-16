@@ -124,7 +124,7 @@ private:
 	std::stringstream playerHealthStream;
 	std::stringstream sameOverStream;
 	const int START_SIZE = 74, PLAYER_STATS_SIZE = 30, ENDING_SIZE = 74; // Size of the text
-	const Vector2f playerStatsLocation = Vector2f(10, 10); // location of the player stats
+	const Vector2f playerStatsLocation = Vector2f(100, 40); // location of the player stats
 	Vector2f centerOfTheScreenTextLocation = Vector2f(0.f,0.f); // the center of the screen for the other text objects on the star and end screen
 };
 
