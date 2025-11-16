@@ -95,7 +95,8 @@ void Game::initializeShip()
 	// set the texture of the ship
 	this->playerShip.setTexture(this->shipTexture);
 	// set the pointer to the ship 
-	this->addGameObjectToPointerArray(this->playerShip);
+	this->addGameObjectToPointerArray(&this->playerShip);
+	this->addCollideableObjectToArray(&this->playerShip);
 
 }
 
@@ -107,7 +108,7 @@ void Game::initializeBackgrounds()
 		this->backgroundPool[backgroundLooper].initializeBackground(this->BackgroudTextures[backgroundLooper], this->backgroundSpeedArray[backgroundLooper]);
 
 		// set a pointer in the all object array to a copy of each of background in the background array for polymorphic update and render calling 
-		this->addGameObjectToPointerArray(this->backgroundPool[backgroundLooper]);
+		this->addGameObjectToPointerArray(&this->backgroundPool[backgroundLooper]);
 	}
 
 
@@ -118,7 +119,8 @@ void Game::initializeBullets()
 	for (int bulletLooper = 0; bulletLooper < MAX_BULLETS; bulletLooper++)
 	{
 		this->bulletPool[bulletLooper].setTexture(this->bulletTexture);
-		this->addGameObjectToPointerArray( this->bulletPool[bulletLooper]);
+		this->addGameObjectToPointerArray(& this->bulletPool[bulletLooper]);
+		this->addCollideableObjectToArray(&this->bulletPool[bulletLooper]);
 	}
 
 }
@@ -128,7 +130,8 @@ void Game::initializeAsteroids()
 	for (int asteroidLooper = 0; asteroidLooper < MAX_ASTEROIDS; asteroidLooper++)
 	{
 		this->asteroidPool[asteroidLooper].setTexture(this->AsteroidTexture);
-		this->addGameObjectToPointerArray(this->asteroidPool[asteroidLooper]);
+		this->addGameObjectToPointerArray(&this->asteroidPool[asteroidLooper]);
+		this->addCollideableObjectToArray(&this->asteroidPool[asteroidLooper]);
 	}
 }
 
@@ -226,17 +229,32 @@ bool Game::loadTexture(const std::string& filename, Texture& texture)
 
 
 
-void Game::addGameObjectToPointerArray(Game_Object& objectPassedIn)
+void Game::addGameObjectToPointerArray(Game_Object *objectPassedIn)
 {
+	
 	for (int pointerLooper = 0; pointerLooper < TOTAL_GAME_OBJECTS; pointerLooper++)
 	{
 		if (this->allObjectsInGame[pointerLooper] == nullptr)
 		{
-			this->allObjectsInGame[pointerLooper] = &objectPassedIn;
+			this->allObjectsInGame[pointerLooper] = objectPassedIn;
 			return; // breaks the loop and returns out the function after adding in the object
 		}
 	}
 
+
+}
+
+void Game::addCollideableObjectToArray(Collidable_Object * cObject)
+{
+
+	for (int pointerLooper = 0; pointerLooper < COLLIDEABLE_OBJECTS; pointerLooper++)
+	{
+		if (this->allCollideableObjects[pointerLooper] == nullptr)
+		{
+			this->allCollideableObjects[pointerLooper] = cObject;
+			return; // breaks the loop and returns out the function after adding in the object
+		}
+	}
 
 }
 

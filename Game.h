@@ -7,6 +7,7 @@
 #include "cassert"
 #include "Input_Manager.h"
 
+
 // game manager style class contains:  The main update loop 
 //                                     Initialize functions 
 //                                     Render loop 
@@ -48,13 +49,15 @@ private:
 	// Helper functions 
 	bool loadBackgroundTexture(std::string& filename, Texture& texture); // function to load textures with repeating 
 	bool loadTexture(const std::string& filename, Texture& texture); // function to load textures without repeating
-	void addGameObjectToPointerArray(Game_Object& obj); // adds the objet being passed into the function to the array for polymorphic update and rendering calls
+	void addGameObjectToPointerArray(Game_Object * object); // adds the objet being passed into the function to the array for polymorphic update and rendering calls
+	void addCollideableObjectToArray(Collidable_Object* cObject); // adds an object to the collision array for polymorphic collision calling
 	void fireBullet(bool readyToFire); // fire a bullet using the input manager ready to fire bool
 
 	// Number of game Objects
     static const int MAX_BACKGROUND_LAYERS = 8, MAX_SHIPS = 1, MAX_ASTEROIDS = 16, MAX_BULLETS = 32;
-	static const int TOTAL_GAME_OBJECTS = (MAX_BACKGROUND_LAYERS + MAX_SHIPS + MAX_ASTEROIDS + MAX_BULLETS);
-	Game_Object* allObjectsInGame[TOTAL_GAME_OBJECTS] = { nullptr }; // An array of game object pointers for polymorphic function calls set to null by default
+	static const int TOTAL_GAME_OBJECTS = (MAX_BACKGROUND_LAYERS + MAX_SHIPS + MAX_ASTEROIDS + MAX_BULLETS), COLLIDEABLE_OBJECTS = (MAX_SHIPS + MAX_ASTEROIDS + MAX_BULLETS);
+   Game_Object * allObjectsInGame[TOTAL_GAME_OBJECTS] = { nullptr }; // An array of game object pointers for polymorphic function calls set to null by default
+   Collidable_Object* allCollideableObjects[COLLIDEABLE_OBJECTS] = { nullptr }; // an array of collideable game objects for collision dectection calls  set to null by default 
 
 	// an array of background speeds for moving the background sprites 0 is the furthest and 7 is the closest sprite
 	const float backgroundSpeedArray[MAX_BACKGROUND_LAYERS]{ 10.f,35.f,45.f,45.f,60.f,180.f,180.f,240.f };
@@ -75,9 +78,7 @@ private:
 	const std::string GAME_TITLE = "Asteroids Game";
 	const int WINDOW_WIDTH = 1920, WINDOW_HEIGHT = 1080;
 	
-	// vairables for shooting the ship 
-	const float SHOOT_SPEED = 0.5f; // speed at which the ship can fire in seconds
-	float bulletTimerTracker = 0.f;
+	
 
 	// game logic vairables  
 	Event gamePoller;
