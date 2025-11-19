@@ -19,9 +19,8 @@ void Bullet::scaleAndCentre(RenderWindow& window)
 	scaleY = scaleY / this->BULLET_SCALE;
 	this->bulletSprite.setScale(scaleX, scaleY); // scale the bullet based on the scale amount you want 
 	this->bulletSprite.setOrigin(static_cast<float>(bulletBounds.width) / 2.0f, static_cast<float>(bulletBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
-
-	this->circleHitbox.setRadius(this->SPRITE_SIZE / 2); // set the radius to half the size of the sprite
-	this->circleHitbox.setScale(scaleX, scaleY); // scale the circle to match the size of the missle
+	this->hitBoxRadius = this->hitBoxRadius * scaleX;
+	this->circleHitbox.setRadius(this->hitBoxRadius); // set the radius to half the size of the sprite
 	this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); // set the origin of the hitbox to the center 
 		
 
@@ -52,6 +51,7 @@ void Bullet::updateObject(Time deltaTime, RenderWindow& window)
 	{
 		
 		this->bulletSprite.move(this->bulletVelocity.x *deltaTime.asSeconds(), this->bulletVelocity.y * deltaTime.asSeconds());
+		this->circleHitbox.setPosition(this->bulletSprite.getPosition()); 
   		this->animationTimer += deltaTime.asSeconds();
 		if (this->animationTimer >= this->ANIMATION_SPEED)
 		{

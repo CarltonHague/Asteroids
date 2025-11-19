@@ -40,6 +40,6 @@ private:
 	IntRect bulletRect;
 	Vector2f bulletPosition = Vector2f (0.f, 0.f); // for storing the bullets current position set to 0, 0 by default 
 	const int SPRITE_SIZE = 32;
-
+    float hitBoxRadius = 32 / 4; // the hit box for the missle is 4 times smaller than the base sprite 
 };
 

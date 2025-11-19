@@ -117,7 +117,8 @@ void Asteroids::initializeObject(RenderWindow& window)
 	this->turnOffAsteroid(); // set the asteroid to not active by default 
 	// center origin of the asteroid sprite similar code to in the ship class
 	this->asteroidSprite.setOrigin(static_cast<float>(this->asteroidSprite.getTextureRect().width) / 2.0f, static_cast<float>(this->asteroidSprite.getTextureRect().height) / 2.0f); 
-	this->circleHitbox.setRadius(51);
+	this->circleHitbox.setRadius(this->SPRITE_SIZE/2); // set the size to the same size of the sprite 
+	this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->getRadius()); // set the origin to the center point 
 	
 
 }

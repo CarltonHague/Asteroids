@@ -29,7 +29,7 @@ public:
 
 	bool collisionCheck(float distanceSquared, float radius) // collision dectection calculation if the radius of object 1 + object 2 is greater than the distance squared then you have a collision 
 	{
-		if (distanceSquared < radius)
+		if (distanceSquared <= (radius*radius))
 		{
 			return true;
 

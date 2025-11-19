@@ -31,8 +31,7 @@ void Ship::scaleAndCenterOrigin(RenderWindow& window)
 	this->shipSprite.setScale(scaleX, scaleY); // scale the ship down to half size
 	this->shipSprite.setRotation(this->SHIP_ROTATION); // rotate the ship to face to the right
 	this->shipSprite.setOrigin(static_cast<float>(shipBounds.width) / 2.0f, static_cast<float>(shipBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
-	this->circleHitbox.setRadius(this->shipSprite.getLocalBounds().width);// set the size of the hit box to the ship sprite
-	this->circleHitbox.setScale(scaleX, scaleY); // scale the circle to match the size of the scaled ship
+	this->circleHitbox.setRadius((shipBounds.width/2.f) * scaleX);// set the size of the hit box to the ship sprite using the scale value and the bounds of the ship
 	this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); // set the center of the hitbox to the middle of the circle
 
 	
@@ -194,6 +193,7 @@ void Ship::setTexture(Texture& tex)
 {
 	this->shipSprite.setTexture(tex);
 }
+
 
 
 
