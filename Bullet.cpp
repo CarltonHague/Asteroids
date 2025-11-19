@@ -20,6 +20,11 @@ void Bullet::scaleAndCentre(RenderWindow& window)
 	this->bulletSprite.setScale(scaleX, scaleY); // scale the bullet based on the scale amount you want 
 	this->bulletSprite.setOrigin(static_cast<float>(bulletBounds.width) / 2.0f, static_cast<float>(bulletBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
 
+	this->circleHitbox.setRadius(this->SPRITE_SIZE / 2); // set the radius to half the size of the sprite
+	this->circleHitbox.setScale(scaleX, scaleY); // scale the circle to match the size of the missle
+	this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); // set the origin of the hitbox to the center 
+		
+
 }
 
 void Bullet::fireBullet(Vector2f shipPos)
@@ -96,23 +101,12 @@ void Bullet::initializeObject(RenderWindow& window)
 
 }
 
-FloatRect Bullet::getBounds()
+float Bullet::getRadius()
 {
-	return this->bulletSprite.getGlobalBounds();
+	return this->circleHitbox.getRadius();
 }
 
-bool Bullet::collisionCheck(FloatRect objectYouAreHitting)
-{
-	FloatRect currentBounds = this->bulletSprite.getGlobalBounds();
-	if (currentBounds.intersects(objectYouAreHitting) &&  currentBounds != objectYouAreHitting) // if the bullet hits the object and it's not it's self
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
+
 
 void Bullet::collisionOutcome(bool collisionFlag, type whatHitYou)
 {
@@ -120,5 +114,10 @@ void Bullet::collisionOutcome(bool collisionFlag, type whatHitYou)
 	{
 		this->turnOffBullet();
 	}
+}
+
+Vector2f Bullet::getPositionOfCircle()
+{
+	return this->circleHitbox.getPosition();
 }
 

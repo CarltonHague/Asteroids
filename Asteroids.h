@@ -22,9 +22,9 @@ private:
 	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
 	void renderObject(RenderWindow& window) override; // function to draw the object 
 	void initializeObject(RenderWindow& window) override; // function to initialize the object such as scaling and placement on screen
-	FloatRect getBounds() override; // overide for getting the bounds of the asteroid
-	bool collisionCheck(FloatRect objectYouAreHitting) override; // checks to see if the asteroid is hitting something and returns either true or false
+	float getRadius() override; // overide for getting the radius of the asteroid circle hitbox
 	void collisionOutcome(bool collisionFlag, type) override; // the outcome of the asteroid getting hit
+	Vector2f getPositionOfCircle() override; // get the position of the circle hitbox for collision detection 
 
 	//vairables
 	Sprite asteroidSprite;

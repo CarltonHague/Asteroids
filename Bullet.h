@@ -24,9 +24,9 @@ private:
 	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
 	void renderObject(RenderWindow& window) override; // function to draw the object
 	void initializeObject(RenderWindow& window) override; //function to scale to the correct based on the render window
-	FloatRect getBounds() override; // overide for getting the bounds of the bullet
-	bool collisionCheck(FloatRect objectYouAreHitting) override; // checks to see if the bullet is hitting something and returns either true or false
+	float getRadius() override; // overide for getting the radius of the bullet circle hit box
 	void collisionOutcome(bool collisionFlag, type) override; // the outcome of the bullet getting hit
+	Vector2f getPositionOfCircle() override; // get the position of the circle hitbox for collision detection 
 
 
 

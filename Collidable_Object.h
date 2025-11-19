@@ -25,16 +25,28 @@ public:
 	bool getIsCollideable() { return this->isCollideable; } // returns the is collideable bool
 	void setCollideable() { this->isCollideable = true; } // sets the bool to true
 	void notCollideable() { this->isCollideable = false; } // sets the bool to false
+	CircleShape circleHitbox;
 
+	bool collisionCheck(float distanceSquared, float radius) // collision dectection calculation if the radius of object 1 + object 2 is greater than the distance squared then you have a collision 
+	{
+		if (distanceSquared < radius)
+		{
+			return true;
 
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	type object_type = NONE; // default is NONE type
 
 	type getType() { return object_type; }; // function that returns the type of collideable object it is 
 
 	// virtual functions 
-	virtual FloatRect getBounds() = 0; // function to get the bounds of the object
-	virtual bool collisionCheck(FloatRect objectYouAreHitting) = 0; // check to see if you hit that object
+	virtual Vector2f getPositionOfCircle() = 0; // function to get the position of the obejct
+	virtual float getRadius() = 0; // function to get the radius of of the hitbox circle
 	virtual void collisionOutcome(bool collisionFlag, type) = 0; // the outcome of hitting something
 
 

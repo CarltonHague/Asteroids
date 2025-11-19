@@ -20,9 +20,9 @@ private:
 	 void initializeObject(RenderWindow& window) override; // function to overide the virtual base class function 
 	 void renderObject(RenderWindow& window) override; // function to overide the virtual base class function and render the ship to the window
 	void updateObject(Time deltatime, RenderWindow& window) override;// overide update function
-	FloatRect getBounds() override; // overide for getting the bounds of the ship
-	bool collisionCheck(FloatRect objectYouAreHitting) override; // checks to see if the ship is hitting something and returns either true or false
+	float getRadius() override; // overide for getting the radius of the ship hitbox
 	void collisionOutcome(bool collisionFlag,type) override; // the outcome of the ship getting hit
+	Vector2f getPositionOfCircle() override; // get the position of the circle hitbox for collision detection 
 
 	// vairables for the ship
 	Sprite shipSprite;

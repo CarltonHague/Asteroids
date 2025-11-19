@@ -79,6 +79,7 @@ void Asteroids::updateObject(Time deltaTime, RenderWindow& window)
 
 		}
 		this->asteroidSprite.move(this->ASTEROID_MOVE_VECTOR.x * deltaTime.asSeconds(),this->ASTEROID_MOVE_VECTOR.y *deltaTime.asSeconds());
+		this->circleHitbox.setPosition(this->asteroidSprite.getPosition()); // set the hitbox to the same location as the sprite for collision 
 		this->animationTracker += deltaTime.asSeconds(); // use delta time to track the speed at which the animation updates 
 		if (this->animationTracker >= this->ANIMATION_SPEED)
 		{
@@ -116,26 +117,17 @@ void Asteroids::initializeObject(RenderWindow& window)
 	this->turnOffAsteroid(); // set the asteroid to not active by default 
 	// center origin of the asteroid sprite similar code to in the ship class
 	this->asteroidSprite.setOrigin(static_cast<float>(this->asteroidSprite.getTextureRect().width) / 2.0f, static_cast<float>(this->asteroidSprite.getTextureRect().height) / 2.0f); 
+	this->circleHitbox.setRadius(51);
+	
 
 }
 
-FloatRect Asteroids::getBounds()
+float Asteroids::getRadius()
 {
-	return this->asteroidSprite.getGlobalBounds();
+	return this->circleHitbox.getRadius();
 }
 
-bool Asteroids::collisionCheck(FloatRect objectYouAreHitting)
-{
-	FloatRect currentBounds = this->asteroidSprite.getGlobalBounds();
-	if (currentBounds.intersects(objectYouAreHitting) && currentBounds != objectYouAreHitting) // check if the object intersects the bounds of the current object
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
+
 
 void Asteroids::collisionOutcome(bool collisionFlag, type whatHitYou)
 {
@@ -147,6 +139,11 @@ void Asteroids::collisionOutcome(bool collisionFlag, type whatHitYou)
 	{
 		resetAsteroid();
 	}
+}
+
+Vector2f Asteroids::getPositionOfCircle()
+{
+	return this->circleHitbox.getPosition();
 }
 
 Asteroids::~Asteroids()
@@ -166,22 +163,27 @@ void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
 		this->turnOnAsteroid(); // set the asteroid to active 
 		this->asteroidSprite.setScale(Vector2f(this->SMALL_SCALE,SMALL_SCALE)); // scale the asteroid to small
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->SMALL_SPEED, 0); // Set the speed based on the const values 
+		this->circleHitbox.setScale(this->SMALL_SCALE, this->SMALL_SCALE); // scale the hitbox to match the size
+		
 		break;
 	case 2:
 		this->object_type = NORMAL_ASTEROID;
 		this->asteroidHealth = NORMAL_ASTEROID_HP;
 		this->asteroidSprite.setPosition(window.getSize().x, yPos);
 		this->turnOnAsteroid();
-		this->asteroidSprite.setScale(Vector2f(this->NORMAL_SCALE, NORMAL_SCALE)); 
+		this->asteroidSprite.setScale(Vector2f(this->NORMAL_SCALE, this-> NORMAL_SCALE)); 
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->NORMAL_SPEED, 0); 
+		this->circleHitbox.setScale(this->NORMAL_SCALE, this->NORMAL_SCALE);
 		break;
 	case 3:
 		this->object_type = LARGE_ASTEROID;
 		this->asteroidHealth = LARGE_ASTEROID_HP;
 		this->asteroidSprite.setPosition(window.getSize().x, yPos);
 		this->turnOnAsteroid();
-		this->asteroidSprite.setScale(Vector2f(this->LARGE_SCALE, LARGE_SCALE)); 
+		this->asteroidSprite.setScale(Vector2f(this->LARGE_SCALE, this->LARGE_SCALE)); 
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->LARGE_SPEED, 0);
+		this->circleHitbox.setScale(this->LARGE_SCALE, this->LARGE_SCALE);
+		
 		break;
 
 	default:

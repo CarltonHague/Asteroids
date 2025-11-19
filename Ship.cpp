@@ -31,6 +31,11 @@ void Ship::scaleAndCenterOrigin(RenderWindow& window)
 	this->shipSprite.setScale(scaleX, scaleY); // scale the ship down to half size
 	this->shipSprite.setRotation(this->SHIP_ROTATION); // rotate the ship to face to the right
 	this->shipSprite.setOrigin(static_cast<float>(shipBounds.width) / 2.0f, static_cast<float>(shipBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
+	this->circleHitbox.setRadius(this->shipSprite.getLocalBounds().width);// set the size of the hit box to the ship sprite
+	this->circleHitbox.setScale(scaleX, scaleY); // scale the circle to match the size of the scaled ship
+	this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); // set the center of the hitbox to the middle of the circle
+
+	
 
 
 }
@@ -119,28 +124,16 @@ void Ship::updateObject(Time deltaTime, RenderWindow& window)
 	}
 	this->shipWindowBoundsCollision(window);
 	this->shipSprite.move(this->shipVelocity * deltaTime.asSeconds()); // move the ship based on its velocity and delta time
+	this->circleHitbox.setPosition(this->shipSprite.getPosition()); // set the circle hit box to the same location as the ships location 
 
 
 }
 
-FloatRect Ship::getBounds()
+float Ship::getRadius()
 {
-	return this->shipSprite.getGlobalBounds();
+	return this->circleHitbox.getRadius();
 }
 
-bool Ship::collisionCheck(FloatRect objectYouAreHitting)
-{
-	FloatRect currentBounds = this->shipSprite.getGlobalBounds();
-	if (objectYouAreHitting.intersects(currentBounds) && objectYouAreHitting != currentBounds) // checks if you intersecred with the object and it's not yourself
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-	
-}
 
 void Ship::collisionOutcome(bool collisionFlag, type whatHitYou)
 {
@@ -158,6 +151,11 @@ void Ship::collisionOutcome(bool collisionFlag, type whatHitYou)
 	{
 		this->shipTakeDamge(NORMAL_ASTEROID_DAMAGE);
 	}
+}
+
+Vector2f Ship::getPositionOfCircle()
+{
+	return this->circleHitbox.getPosition();
 }
 
 void Ship::shipWindowBoundsCollision(RenderWindow& window)
