@@ -2,6 +2,7 @@
 #include"SFML/Graphics.hpp"
 using namespace sf;
 // Class for managing the player input flags could be expanded to allow for controller support etc
+// also contains the fire speed for the bullets
 
 class Input_Manager
 {
@@ -23,7 +24,7 @@ private:
 	bool inputLeft = false;
 	bool inputRight = false;
 	bool inputFire = false;
-	const float fireRate = 1.f; // the player can only shoot every second by default
+	const float fireRate = 0.5f; // the player can only shoot every second by default
 	float fireRateTracker = 0.f;
 
 

@@ -7,13 +7,13 @@ class Game_Object
 {
 public:
 	
-	bool is_active = false; // default is not active 
+	bool isActive = false; // default is not active 
 
 
 	// regular functions
-	bool getIsActive() { return this->is_active; } // function to see if the object is active or not for rendering and collision
-	void setToActive() { this->is_active = true; } // function to set the current active state to true
-	void deactivate() { this->is_active = false; }// function to set the current active state to false
+	bool getIsActive() { return this->isActive; } // function to see if the object is active or not for rendering and collision
+	void setToActive() { this->isActive = true; } // function to set the current active state to true
+	void deactivate() { this->isActive = false; }// function to set the current active state to false
 	
 
 	// virtual functions

@@ -1,5 +1,4 @@
 #pragma once
-#include "SFML/Graphics.hpp"
 #include "Bullet.h"
 #include"Background.h"
 #include"Ship.h"
@@ -69,7 +68,7 @@ private:
    Collidable_Object* allCollideableObjects[COLLIDEABLE_OBJECTS] = { nullptr }; // an array of collideable game objects for collision dectection calls  set to null by default 
 
 	// an array of background speeds for moving the background sprites 0 is the furthest and 7 is the closest sprite
-	const float backgroundSpeedArray[MAX_BACKGROUND_LAYERS]{ 10.f,35.f,45.f,45.f,60.f,180.f,180.f,240.f };
+	const float backgroundSpeedArray[MAX_BACKGROUND_LAYERS]{ 10.f,35.f,45.f,45.f,60.f,160.f,160.f,240.f };
 
 	// pools of objects for better cache coherence and refrencing
 	Bullet bulletPool[MAX_BULLETS];
@@ -91,8 +90,8 @@ private:
 	const int WINDOW_WIDTH = 1920, WINDOW_HEIGHT = 1080;
 	
 	// asteroid spawn timer (could be moved to a spawn handler class or struct in future updates) 
-	const float ASTEROID_SPAWN_TIMER = 1.f; // spawntimer in seconds 
-	float asteroidTimerTracker = ASTEROID_SPAWN_TIMER; // set to spawn one on game start
+	const float ASTEROID_SPAWN_TIMER = 0.5f; // spawntimer in seconds 
+	float asteroidTimerTracker = ASTEROID_SPAWN_TIMER; // set to spawn one on game start then should spawn one every time it reaches the spawn timer vairable
 	const float ASTEROID_BUFFER = 76.5; // the buffer for spawning the asteroid to ensure it is always within the bounds of the screen
 
 	// game logic vairables  

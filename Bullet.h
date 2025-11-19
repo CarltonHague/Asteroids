@@ -37,7 +37,6 @@ private:
 	float animationTimer = 0.f;
 	Sprite bulletSprite;
 	const Vector2f bulletVelocity = Vector2f(BULLET_SPEED, 0); // set the x speed of the bullet to the const vairable
-	float bulletSpeed = 0;
 	IntRect bulletRect;
 	Vector2f bulletPosition = Vector2f (0.f, 0.f); // for storing the bullets current position set to 0, 0 by default 
 	const int SPRITE_SIZE = 32;
