@@ -22,9 +22,8 @@ private:
 	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
 	void renderObject(RenderWindow& window) override; // function to draw the object 
 	void initializeObject(RenderWindow& window) override; // function to initialize the object such as scaling and placement on screen
-	float getRadius() override; // overide for getting the radius of the asteroid circle hitbox
 	void collisionOutcome(bool collisionFlag, type) override; // the outcome of the asteroid getting hit
-	Vector2f getPositionOfCircle() override; // get the position of the circle hitbox for collision detection 
+	
 
 	//vairables
 	Sprite asteroidSprite;
@@ -39,5 +38,6 @@ private:
 	const float SMALL_SCALE = 0.5, LARGE_SCALE = 1.5, NORMAL_SCALE = 1; // scalers for changing the size of the asteroid 
 	const float ANIMATION_SPEED = 0.16; // around 60 frames per second 
 	float animationTracker = 0.f;
+	const float ASTEROID_HITBOX_PADDING = 0.75; // used to reduce the hit box of the asteroid by around 25% to allow for more accurate collisions relative to the visuals on screen
 };
 

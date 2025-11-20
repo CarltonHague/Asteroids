@@ -31,7 +31,10 @@ void Ship::scaleAndCenterOrigin(RenderWindow& window)
 	this->shipSprite.setScale(scaleX, scaleY); // scale the ship down to half size
 	this->shipSprite.setRotation(this->SHIP_ROTATION); // rotate the ship to face to the right
 	this->shipSprite.setOrigin(static_cast<float>(shipBounds.width) / 2.0f, static_cast<float>(shipBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
-	this->circleHitbox.setRadius((shipBounds.width/2.f) * scaleX);// set the size of the hit box to the ship sprite using the scale value and the bounds of the ship
+
+
+
+	this->circleHitbox.setRadius((this->shipSprite.getGlobalBounds().width * this->HITBOX_SCALE));// set the size of the hit box to the ship sprite using around 45% of the sprite 
 	this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); // set the center of the hitbox to the middle of the circle
 
 	
@@ -42,6 +45,7 @@ void Ship::scaleAndCenterOrigin(RenderWindow& window)
 void Ship::renderObject(RenderWindow& window)
 {
 	window.draw(this->shipSprite);
+	
 }
 
 void Ship::updateDirection(bool up, bool down, bool left, bool right)
@@ -128,10 +132,6 @@ void Ship::updateObject(Time deltaTime, RenderWindow& window)
 
 }
 
-float Ship::getRadius()
-{
-	return this->circleHitbox.getRadius();
-}
 
 
 void Ship::collisionOutcome(bool collisionFlag, type whatHitYou)
@@ -152,10 +152,7 @@ void Ship::collisionOutcome(bool collisionFlag, type whatHitYou)
 	}
 }
 
-Vector2f Ship::getPositionOfCircle()
-{
-	return this->circleHitbox.getPosition();
-}
+
 
 void Ship::shipWindowBoundsCollision(RenderWindow& window)
 {

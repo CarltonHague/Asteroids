@@ -19,8 +19,8 @@ void Bullet::scaleAndCentre(RenderWindow& window)
 	scaleY = scaleY / this->BULLET_SCALE;
 	this->bulletSprite.setScale(scaleX, scaleY); // scale the bullet based on the scale amount you want 
 	this->bulletSprite.setOrigin(static_cast<float>(bulletBounds.width) / 2.0f, static_cast<float>(bulletBounds.height) / 2.0f);  // set the origin to the center of the ship sprite
-	this->hitBoxRadius = this->hitBoxRadius * scaleX;
-	this->circleHitbox.setRadius(this->hitBoxRadius); // set the radius to half the size of the sprite
+
+	this->circleHitbox.setRadius((this->SPRITE_SIZE*this->HITBOX_SCALE)); // set the radius to half the size of the sprite
 	this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); // set the origin of the hitbox to the center 
 		
 
@@ -51,7 +51,7 @@ void Bullet::updateObject(Time deltaTime, RenderWindow& window)
 	{
 		
 		this->bulletSprite.move(this->bulletVelocity.x *deltaTime.asSeconds(), this->bulletVelocity.y * deltaTime.asSeconds());
-		this->circleHitbox.setPosition(this->bulletSprite.getPosition()); 
+		this->circleHitbox.setPosition(this->bulletSprite.getPosition());
   		this->animationTimer += deltaTime.asSeconds();
 		if (this->animationTimer >= this->ANIMATION_SPEED)
 		{
@@ -87,6 +87,7 @@ void Bullet::renderObject(RenderWindow& window)
 {
 	window.draw(this->bulletSprite);
 	
+	
 }
 
 
@@ -101,10 +102,7 @@ void Bullet::initializeObject(RenderWindow& window)
 
 }
 
-float Bullet::getRadius()
-{
-	return this->circleHitbox.getRadius();
-}
+
 
 
 
@@ -116,8 +114,5 @@ void Bullet::collisionOutcome(bool collisionFlag, type whatHitYou)
 	}
 }
 
-Vector2f Bullet::getPositionOfCircle()
-{
-	return this->circleHitbox.getPosition();
-}
+
 

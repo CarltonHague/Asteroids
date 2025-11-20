@@ -20,9 +20,7 @@ private:
 	 void initializeObject(RenderWindow& window) override; // function to overide the virtual base class function 
 	 void renderObject(RenderWindow& window) override; // function to overide the virtual base class function and render the ship to the window
 	void updateObject(Time deltatime, RenderWindow& window) override;// overide update function
-	float getRadius() override; // overide for getting the radius of the ship hitbox
 	void collisionOutcome(bool collisionFlag,type) override; // the outcome of the ship getting hit
-	Vector2f getPositionOfCircle() override; // get the position of the circle hitbox for collision detection 
 
 	// vairables for the ship
 	Sprite shipSprite;
@@ -48,6 +46,7 @@ private:
 	int shipHealth = 0;
 	const int MAX_HP = 100;
 	const float SHIP_ROTATION = 90 ;
+	const float HITBOX_SCALE = 0.45F; // used to scale the circle hit box by around 45% of the original size
 
 };
 

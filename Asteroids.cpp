@@ -109,6 +109,7 @@ void Asteroids::renderObject(RenderWindow& window)
 	if (this->getIsActive()) // if the asteroid is active
 	{
 		window.draw(this->asteroidSprite);
+		
 	}
 }
 
@@ -123,10 +124,9 @@ void Asteroids::initializeObject(RenderWindow& window)
 
 }
 
-float Asteroids::getRadius()
-{
-	return this->circleHitbox.getRadius();
-}
+
+
+
 
 
 
@@ -142,10 +142,6 @@ void Asteroids::collisionOutcome(bool collisionFlag, type whatHitYou)
 	}
 }
 
-Vector2f Asteroids::getPositionOfCircle()
-{
-	return this->circleHitbox.getPosition();
-}
 
 Asteroids::~Asteroids()
 {
@@ -164,8 +160,8 @@ void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
 		this->turnOnAsteroid(); // set the asteroid to active 
 		this->asteroidSprite.setScale(Vector2f(this->SMALL_SCALE,SMALL_SCALE)); // scale the asteroid to small
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->SMALL_SPEED, 0); // Set the speed based on the const values 
-		this->circleHitbox.setScale(this->SMALL_SCALE, this->SMALL_SCALE); // scale the hitbox to match the size
-		
+		this->circleHitbox.setRadius(((this->SPRITE_SIZE *SMALL_SCALE) / 2) * this->ASTEROID_HITBOX_PADDING); // scale the hitbox to match the size and add some padding to reduce it further by around 15%
+		this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); // set the origin to the center of th hitbox 
 		break;
 	case 2:
 		this->object_type = NORMAL_ASTEROID;
@@ -175,6 +171,8 @@ void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
 		this->asteroidSprite.setScale(Vector2f(this->NORMAL_SCALE, this-> NORMAL_SCALE)); 
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->NORMAL_SPEED, 0); 
 		this->circleHitbox.setScale(this->NORMAL_SCALE, this->NORMAL_SCALE);
+		this->circleHitbox.setRadius(((this->SPRITE_SIZE * NORMAL_SCALE) / 2) * this->ASTEROID_HITBOX_PADDING); 
+		this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); 
 		break;
 	case 3:
 		this->object_type = LARGE_ASTEROID;
@@ -184,6 +182,8 @@ void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
 		this->asteroidSprite.setScale(Vector2f(this->LARGE_SCALE, this->LARGE_SCALE)); 
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->LARGE_SPEED, 0);
 		this->circleHitbox.setScale(this->LARGE_SCALE, this->LARGE_SCALE);
+		this->circleHitbox.setRadius(((this->SPRITE_SIZE * LARGE_SCALE) / 2) * this->ASTEROID_HITBOX_PADDING); 
+		this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); 
 		
 		break;
 

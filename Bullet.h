@@ -24,9 +24,8 @@ private:
 	void updateObject(Time deltaTime, RenderWindow& window) override;  // function to update the object with delta time 
 	void renderObject(RenderWindow& window) override; // function to draw the object
 	void initializeObject(RenderWindow& window) override; //function to scale to the correct based on the render window
-	float getRadius() override; // overide for getting the radius of the bullet circle hit box
 	void collisionOutcome(bool collisionFlag, type) override; // the outcome of the bullet getting hit
-	Vector2f getPositionOfCircle() override; // get the position of the circle hitbox for collision detection 
+	
 
 
 
@@ -40,6 +39,6 @@ private:
 	IntRect bulletRect;
 	Vector2f bulletPosition = Vector2f (0.f, 0.f); // for storing the bullets current position set to 0, 0 by default 
 	const int SPRITE_SIZE = 32;
-    float hitBoxRadius = 32 / 4; // the hit box for the missle is 4 times smaller than the base sprite 
+	const float HITBOX_SCALE = 0.2; // scales the hit box to around 20% of the sprites size since missles are small and thin and not massive squares
 };
 
