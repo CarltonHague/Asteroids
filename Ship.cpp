@@ -85,47 +85,8 @@ int Ship::getShipHealth()
 void Ship::updateObject(Time deltaTime, RenderWindow& window)
 {
 	//check the ship direction and update the velocity accordingly
-	switch (this->shipDirection)
-	{
-	case NORTH:
-		this->shipVelocity.y = (this->SHIP_SPEED * -1);
-		this->shipVelocity.x = 0.f;
-		break;
-	case NORTH_EAST:
-		this->shipVelocity.x = this->SHIP_SPEED / 2;
-		this->shipVelocity.y = (this->SHIP_SPEED * -1) / 2;
-		break;
-	case NORTH_WEST:
-		this->shipVelocity.x = (this->SHIP_SPEED * -1) / 2;
-		this->shipVelocity.y = (this->SHIP_SPEED * -1) / 2;
-		break;
-	case SOUTH:
-		this->shipVelocity.y = this->SHIP_SPEED;
-		this->shipVelocity.x = 0.f;
-		break;
-	case SOUTH_EAST:
-		this->shipVelocity.x = this->SHIP_SPEED / 2;
-		this->shipVelocity.y = this->SHIP_SPEED / 2;
-		break;
-	case SOUTH_WEST:
-		this->shipVelocity.x = (this->SHIP_SPEED * -1) / 2;
-		this->shipVelocity.y = this->SHIP_SPEED / 2;
-		break;
-	case WEST:
-		this->shipVelocity.x = (this->SHIP_SPEED * -1);
-		this->shipVelocity.y = 0.f;
-		break;
-	case EAST:
-		this->shipVelocity.x = this->SHIP_SPEED;
-		this->shipVelocity.y = 0.f;
-		break;
-	case STOPPED: this->shipVelocity.x = 0.f;
-		this->shipVelocity.y = 0.f;
-		break;
-	default:
-		break;
-	}
-	this->shipWindowBoundsCollision(window);
+	this->moveShip(deltaTime);
+	this->shipWindowBoundsCollision(window, deltaTime);
 	this->shipSprite.move(this->shipVelocity * deltaTime.asSeconds()); // move the ship based on its velocity and delta time
 	this->circleHitbox.setPosition(this->shipSprite.getPosition()); // set the circle hit box to the same location as the ships location 
 
@@ -154,26 +115,26 @@ void Ship::collisionOutcome(bool collisionFlag, type whatHitYou)
 
 
 
-void Ship::shipWindowBoundsCollision(RenderWindow& window)
+void Ship::shipWindowBoundsCollision(RenderWindow& window, Time Dt)
 {
 	// same function as in homework 3
 
 	this->shipPosition = this->shipSprite.getPosition();
-	if (this->shipPosition.x <= 0 + this->shipSprite.getGlobalBounds().width)
+	if ((this->shipPosition.x + (this->shipVelocity.x* Dt.asSeconds())) <= (0 + this->shipSprite.getGlobalBounds().width))
 	{
-		this->shipSprite.setPosition(0 + this->shipSprite.getGlobalBounds().width, this->shipPosition.y);
+		this->shipVelocity.x = 0.f;
 	}
-	if (this->shipPosition.x >= (window.getSize().x - this->shipSprite.getGlobalBounds().width))
+	else if ((this->shipPosition.x + (this->shipVelocity.x * Dt.asSeconds())) >= (window.getSize().x - this->shipSprite.getGlobalBounds().width))
 	{
-		this->shipSprite.setPosition(window.getSize().x - this->shipSprite.getGlobalBounds().width, this->shipPosition.y);
+		this->shipVelocity.x = 0.f;
 	}
-	if (this->shipPosition.y <= 0 + this->shipSprite.getGlobalBounds().height)
+	if ((this->shipPosition.y + (this->shipVelocity.y * Dt.asSeconds())) <= 0 + this->shipSprite.getGlobalBounds().height)
 	{
-		this->shipSprite.setPosition(this->shipPosition.x, 0 + this->shipSprite.getGlobalBounds().height);
+		this->shipVelocity.y = 0.f;
 	}
-	if (this->shipPosition.y >= (window.getSize().y - this->shipSprite.getGlobalBounds().height))
+	else if ((this->shipPosition.y + (this->shipVelocity.y * Dt.asSeconds())) >= (window.getSize().y - this->shipSprite.getGlobalBounds().height))
 	{
-		this->shipSprite.setPosition(this->shipPosition.x, window.getSize().y - this->shipSprite.getGlobalBounds().height);
+		this->shipVelocity.y = 0.f;
 	}
 }
 
@@ -183,6 +144,106 @@ void Ship::shipTakeDamge(int damageAmount)
 	if (this->shipHealth <= 0)
 	{
 		shipHealth = 0;
+	}
+}
+
+void Ship::moveShip(Time dt)
+{
+	//check the ship direction and update the velocity accordingly by adding the acceleration rate and using the deceleration rate to reduce the vaules you want 
+	// this should provide a floaty movement that feels more realistic play around with the values to find a good rate of acceleration and deceleration
+
+	switch (this->shipDirection)
+	{
+	case NORTH:
+		this->shipVelocity.y -= this->SHIP_ACCELERATION * dt.asSeconds();
+		if (this->shipVelocity.x < 0)
+		{
+			this->shipVelocity.x += (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		if (this->shipVelocity.x > 0)
+		{
+			this->shipVelocity.x -= (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		break;
+	case NORTH_EAST:
+		this->shipVelocity.x += (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		this->shipVelocity.y -= (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		break;
+	case NORTH_WEST:
+		this->shipVelocity.x -= (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		this->shipVelocity.y -= (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		break;
+	case SOUTH:
+		this->shipVelocity.y += (this->SHIP_ACCELERATION * dt.asSeconds());
+		if (this->shipVelocity.x < 0)
+		{
+			this->shipVelocity.x += (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		if (this->shipVelocity.x > 0)
+		{
+			this->shipVelocity.x -= (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		break;
+	case SOUTH_EAST:
+		this->shipVelocity.x += (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		this->shipVelocity.y += (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		break;
+	case SOUTH_WEST:
+		this->shipVelocity.x -= (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		this->shipVelocity.y += (this->SHIP_ACCELERATION / 2) * dt.asSeconds();
+		break;
+	case WEST:
+		this->shipVelocity.x -= (this->SHIP_ACCELERATION * dt.asSeconds());
+		if (this->shipVelocity.y < 0)
+		{
+			this->shipVelocity.y += (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		if (this->shipVelocity.y > 0)
+		{
+			this->shipVelocity.y -= (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		break;
+	case EAST:
+		this->shipVelocity.x += (this->SHIP_ACCELERATION * dt.asSeconds());
+		if (this->shipVelocity.y < 0)
+		{
+			this->shipVelocity.y += (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		if (this->shipVelocity.y > 0)
+		{
+			this->shipVelocity.y -= (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		break;
+	case STOPPED:
+		if (this->shipVelocity.x < 0)
+		{
+			this->shipVelocity.x += (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		if (this->shipVelocity.x > 0)
+		{
+			this->shipVelocity.x -= (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		if (this->shipVelocity.y < 0)
+		{
+			this->shipVelocity.y += (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		if (this->shipVelocity.y > 0)
+		{
+			this->shipVelocity.y -= (this->SHIP_DECELETAION * dt.asSeconds());
+		}
+		break;
+	default:
+		break;
+	}
+
+	// if the ship is moveing faster than the termal in a direction set the velocity to the max termal velocity
+	if (this->shipVelocity.x > this->SHIP_TERMAL_VELOCITY)
+	{
+		this->shipVelocity.x = this->SHIP_TERMAL_VELOCITY;
+	}
+	if (this->shipVelocity.y > this->SHIP_TERMAL_VELOCITY)
+	{
+		this->shipVelocity.y = this->SHIP_TERMAL_VELOCITY;
 	}
 }
 

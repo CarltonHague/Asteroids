@@ -13,9 +13,9 @@ public:
 private:
 	// private functions
 	 void scaleAndCenterOrigin(RenderWindow& window); // function to scale the ship and set the origin to the center
-	 void shipWindowBoundsCollision(RenderWindow& window); // function that keeps the ship within the bounds of the current window
+	 void shipWindowBoundsCollision(RenderWindow& window, Time dt); // function that keeps the ship within the bounds of the current window
 	 void shipTakeDamge(int damageAmount); // function for the ship to take damage
-
+	 void moveShip(Time dt); // function to move the ship based on delta time and the ships current direction 
 	 // override functions 
 	 void initializeObject(RenderWindow& window) override; // function to overide the virtual base class function 
 	 void renderObject(RenderWindow& window) override; // function to overide the virtual base class function and render the ship to the window
@@ -41,7 +41,7 @@ private:
 	};
 	Direction shipDirection = STOPPED; // default is stopped
 	const int SMALL_ASTEROID_DAMAGE = 5, LARGE_ASTEROID_DAMAGE = 15, NORMAL_ASTEROID_DAMAGE = 10;
-	const float SHIP_SPEED = 250.f;
+	const float SHIP_ACCELERATION = 550.f, SHIP_DECELETAION = 250.f, SHIP_TERMAL_VELOCITY = 200.f; // the speed at which the ship moves
 	const float SHIP_SCALE = 20.f ;
 	int shipHealth = 0;
 	const int MAX_HP = 100;

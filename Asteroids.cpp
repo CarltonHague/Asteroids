@@ -170,7 +170,6 @@ void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
 		this->turnOnAsteroid();
 		this->asteroidSprite.setScale(Vector2f(this->NORMAL_SCALE, this-> NORMAL_SCALE)); 
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->NORMAL_SPEED, 0); 
-		this->circleHitbox.setScale(this->NORMAL_SCALE, this->NORMAL_SCALE);
 		this->circleHitbox.setRadius(((this->SPRITE_SIZE * NORMAL_SCALE) / 2) * this->ASTEROID_HITBOX_PADDING); 
 		this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); 
 		break;
@@ -181,7 +180,6 @@ void Asteroids::spawnAsteroid(float yPos, RenderWindow &window)
 		this->turnOnAsteroid();
 		this->asteroidSprite.setScale(Vector2f(this->LARGE_SCALE, this->LARGE_SCALE)); 
 		this->ASTEROID_MOVE_VECTOR = Vector2f(this->LARGE_SPEED, 0);
-		this->circleHitbox.setScale(this->LARGE_SCALE, this->LARGE_SCALE);
 		this->circleHitbox.setRadius(((this->SPRITE_SIZE * LARGE_SCALE) / 2) * this->ASTEROID_HITBOX_PADDING); 
 		this->circleHitbox.setOrigin(this->circleHitbox.getRadius(), this->circleHitbox.getRadius()); 
 		
