@@ -158,11 +158,11 @@ void Ship::moveShip(Time dt)
 		this->shipVelocity.y -= this->SHIP_ACCELERATION * dt.asSeconds();
 		if (this->shipVelocity.x < 0)
 		{
-			this->shipVelocity.x += (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.x += (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		if (this->shipVelocity.x > 0)
 		{
-			this->shipVelocity.x -= (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.x -= (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		break;
 	case NORTH_EAST:
@@ -177,11 +177,11 @@ void Ship::moveShip(Time dt)
 		this->shipVelocity.y += (this->SHIP_ACCELERATION * dt.asSeconds());
 		if (this->shipVelocity.x < 0)
 		{
-			this->shipVelocity.x += (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.x += (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		if (this->shipVelocity.x > 0)
 		{
-			this->shipVelocity.x -= (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.x -= (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		break;
 	case SOUTH_EAST:
@@ -196,22 +196,22 @@ void Ship::moveShip(Time dt)
 		this->shipVelocity.x -= (this->SHIP_ACCELERATION * dt.asSeconds());
 		if (this->shipVelocity.y < 0)
 		{
-			this->shipVelocity.y += (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.y += (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		if (this->shipVelocity.y > 0)
 		{
-			this->shipVelocity.y -= (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.y -= (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		break;
 	case EAST:
 		this->shipVelocity.x += (this->SHIP_ACCELERATION * dt.asSeconds());
 		if (this->shipVelocity.y < 0)
 		{
-			this->shipVelocity.y += (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.y += (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		if (this->shipVelocity.y > 0)
 		{
-			this->shipVelocity.y -= (this->SHIP_DECELETAION * dt.asSeconds());
+			this->shipVelocity.y -= (this->SHIP_ACCELERATION * dt.asSeconds());
 		}
 		break;
 	case STOPPED:
@@ -237,13 +237,13 @@ void Ship::moveShip(Time dt)
 	}
 
 	// if the ship is moveing faster than the termal in a direction set the velocity to the max termal velocity
-	if (this->shipVelocity.x > this->SHIP_TERMAL_VELOCITY)
+	if (this->shipVelocity.x > this->SHIP_TERMINAL_VELOCITY)
 	{
-		this->shipVelocity.x = this->SHIP_TERMAL_VELOCITY;
+		this->shipVelocity.x = this->SHIP_TERMINAL_VELOCITY;
 	}
-	if (this->shipVelocity.y > this->SHIP_TERMAL_VELOCITY)
+	if (this->shipVelocity.y > this->SHIP_TERMINAL_VELOCITY)
 	{
-		this->shipVelocity.y = this->SHIP_TERMAL_VELOCITY;
+		this->shipVelocity.y = this->SHIP_TERMINAL_VELOCITY;
 	}
 }
 

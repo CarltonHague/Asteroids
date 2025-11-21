@@ -41,7 +41,14 @@ private:
 	};
 	Direction shipDirection = STOPPED; // default is stopped
 	const int SMALL_ASTEROID_DAMAGE = 5, LARGE_ASTEROID_DAMAGE = 15, NORMAL_ASTEROID_DAMAGE = 10;
-	const float SHIP_ACCELERATION = 550.f, SHIP_DECELETAION = 250.f, SHIP_TERMAL_VELOCITY = 200.f; // the speed at which the ship moves
+
+	// the speed at which the ship handles
+	const float SHIP_ACCELERATION = 300.f, SHIP_DECELETAION = 50.f, SHIP_TERMINAL_VELOCITY = 200.f; 
+	// acceleration is how fast the ship speeds up and changes direction 
+	// deceleration is how fast the ship slows down to a standstill when no key inputs are pressed
+	// terminal velocity is how fast the ship is allowed to move overall 
+	// play around with the 3 values to find a ship speed that feels best 
+
 	const float SHIP_SCALE = 20.f ;
 	int shipHealth = 0;
 	const int MAX_HP = 100;
